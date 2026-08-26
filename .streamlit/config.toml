@@ -1,0 +1,22 @@
+# Sentinel-AI brand theme.
+#
+# Pinned to light rather than following the viewer's OS preference: the report
+# surface uses a fixed navy/gold palette with hand-authored cards, and a browser
+# in dark mode would render navy text on a dark ground. Fixing the base keeps
+# the dashboard legible regardless of the machine it is demoed on.
+
+[theme]
+base = "light"
+primaryColor = "#0F1B3C"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F5F7FB"
+textColor = "#0F172A"
+linkColor = "#1D4ED8"
+font = "sans-serif"
+
+[server]
+headless = true
+maxUploadSize = 200
+
+[browser]
+gatherUsageStats = false

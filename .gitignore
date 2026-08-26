@@ -1,0 +1,38 @@
+# --- Secrets ----------------------------------------------------------------
+.env
+.env.*
+!.env.example
+
+# --- Generated run artefacts -------------------------------------------------
+# Filings, indexes, reports, and the audit-trail database are produced at
+# runtime. The demo filing is regenerated on demand by tools/demo_corpus.py.
+data/documents/*.pdf
+data/reports/
+data/index/
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+!data/.gitkeep
+!data/documents/.gitkeep
+!data/fixtures/*.json
+
+# --- Python ------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+
+# --- Editors / OS ------------------------------------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
