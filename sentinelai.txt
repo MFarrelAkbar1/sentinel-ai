@@ -1,0 +1,425 @@
+SENTINEL-AI
+Autonomous Financial & Market Due Diligence Agent
+AI Project Proposal — BISA AI National AI Agent Challenge 2026 Tim LastDance
+
+1. IDENTITAS PROPOSAL
+Item
+Keterangan
+Judul AI Agent
+Sentinel-AI: Autonomous Financial & Market Due Diligence Agent
+Nama Tim
+LastDance
+Kategori Peserta
+Pelajar & Mahasiswa
+Nama Ketua Tim
+Muhammad Farrel Akbar
+Institusi
+Departemen Teknik Elektro dan Teknologi Informasi (DTETI), Fakultas Teknik, Universitas Gadjah Mada
+Anggota Tim
+[isi 1–3 nama anggota beserta institusi]
+Bidang Solusi
+Business (dengan irisan Government — perlindungan investor & transparansi pasar modal)
+Logo
+Logo BISA AI Academy dicantumkan pada halaman sampul portofolio
+
+Tagline: Membaca yang tidak sempat dibaca siapa pun.
+
+2. PROBLEM STATEMENT
+2.1 Permasalahan yang Ingin Diselesaikan
+Setiap emiten di Bursa Efek Indonesia wajib menerbitkan laporan tahunan yang tebalnya berkisar 300–500 halaman, ditambah laporan keuangan kuartalan, prospektus, dan keterbukaan informasi insidental. Dengan lebih dari 900 emiten tercatat[1], ekosistem pasar modal Indonesia menghasilkan ratusan ribu halaman dokumen resmi setiap tahun.
+Persoalannya bukan ketersediaan informasi — semuanya terbuka dan gratis. Persoalannya adalah tidak ada kapasitas manusia untuk membacanya.
+Empat masalah konkret yang lahir dari situ:
+a. Informasi paling penting justru terkubur paling dalam. Sinyal risiko yang sesungguhnya jarang berada di ringkasan eksekutif. Ia tersembunyi di Catatan atas Laporan Keuangan: transaksi dengan pihak berelasi, saham pengendali yang digadaikan, opini auditor dengan penekanan suatu hal, pergantian kantor akuntan publik, utang jatuh tempo yang tidak punya sumber pendanaan jelas. Bagian-bagian inilah yang paling jarang dibaca.
+b. Analisis terfragmentasi antara angka dan konteks. Data keuangan historis (masa lalu) tidak pernah dipertemukan secara sistematis dengan informasi pasar terkini (masa kini). Padahal kontradiksi antara keduanya — misalnya perusahaan mengumumkan ekspansi besar sementara arus kas operasinya negatif tiga tahun berturut-turut — adalah sinyal yang paling bernilai.
+c. Ketimpangan akses yang struktural. Institusi besar memiliki tim analis. Investor ritel, UMKM yang ingin menilai kredibilitas calon mitra, dan startup yang meriset kompetitor tidak memiliki siapa pun. Jasa konsultan due diligence berbiaya puluhan hingga ratusan juta rupiah per penugasan — di luar jangkauan mayoritas pelaku usaha.
+d. Emiten kecil tidak diliput siapa pun. Emiten berkapitalisasi besar diikuti puluhan analis, sehingga informasinya cepat tercermin di harga. Sebaliknya, ratusan emiten lapis bawah dan menengah nyaris tidak memiliki liputan riset sama sekali. Justru di wilayah tanpa pengawasan inilah risiko terbesar berada — dan di situ pula investor ritel paling banyak dirugikan.
+2.2 Target Pengguna
+Segmen
+Kebutuhan Spesifik
+Analis investasi & manajer investasi kecil
+Mempersempit ruang pencarian dari ratusan emiten menjadi belasan yang layak dibaca manusia
+Manajer strategi & C-Level
+Due diligence cepat atas calon mitra, akuisisi, atau kompetitor
+Founder startup & pemilik usaha
+Riset kompetitor dan verifikasi kredibilitas mitra bisnis tanpa biaya konsultan
+Investor ritel terinformasi
+Memahami risiko emiten sebelum mengambil keputusan, dengan bukti yang bisa ditelusuri
+Pengembangan lanjutan
+Analis kredit bank, kantor akuntan publik, dan unit pengawasan pasar
+
+2.3 Mengapa Masalah Ini Penting
+Kerugian akibat kegagalan due diligence di Indonesia bukan hipotesis.[4] Rangkaian kasus emiten bermasalah — mulai dari manipulasi laporan keuangan hingga gagal bayar yang mengejutkan pasar[2][3] — memiliki satu kesamaan yang mengganggu: pola peringatannya sudah tertulis di dokumen resmi bertahun-tahun sebelum kolaps terjadi.
+Laba yang terus positif sementara arus kas operasi negatif. Piutang usaha yang tumbuh jauh melampaui pertumbuhan penjualan. Transaksi pihak berelasi yang membesar tanpa penjelasan memadai. Auditor yang berganti disertai opini yang melemah. Semua itu ada di dalam PDF yang bisa diunduh siapa saja secara gratis.
+Tidak ada yang membacanya bukan karena tidak peduli, melainkan karena secara aritmetika mustahil: 900 emiten × 400 halaman × 4 periode pelaporan berada di luar batas kapasitas kognitif manusia mana pun.
+Ini adalah definisi paling jernih dari masalah yang hanya dapat diselesaikan oleh sistem otonom — bukan oleh menambah jumlah analis, dan bukan oleh aplikasi yang menunggu diperintah.
+
+3. AI AGENT SOLUTION
+3.1 Solusi yang Diusulkan
+Sentinel-AI adalah firma due diligence virtual yang bekerja tanpa henti.
+Sistem ini terdiri atas empat agen otonom yang berkolaborasi, masing-masing dengan peran, tool, dan wewenang keputusan sendiri. Sentinel-AI tidak menunggu pertanyaan pengguna. Ia dipicu oleh peristiwa — terbitnya dokumen baru, berlalunya jadwal pemantauan, atau munculnya berita yang berkaitan dengan entitas yang sedang diawasi.
+Posisi produk dinyatakan tegas sejak awal: Sentinel-AI adalah alat riset dan penyaringan risiko (research & screening tool), bukan penasihat investasi. Sistem tidak pernah mengeluarkan rekomendasi beli, jual, atau tahan. Setiap temuan disajikan sebagai indikator yang perlu diklarifikasi, disertai tautan ke halaman dokumen sumbernya. Keputusan tetap sepenuhnya berada di tangan manusia.
+3.2 Arsitektur Multi-Agen
+Agen 1 — The Financial Auditor Mengekstraksi metrik keuangan dari dokumen. Yang membedakannya dari parser biasa: agen ini tidak pernah mempercayai satu kali pembacaan. Setiap angka yang diekstraksi diverifikasi ulang secara deterministik melalui perhitungan Python (apakah total aset = liabilitas + ekuitas? apakah jumlah komponen sesuai dengan subtotal yang tertulis?). Bila terjadi ketidakcocokan, agen membaca ulang bagian yang relevan dengan strategi berbeda.
+Agen 2 — The Market Intelligence Analyst Bekerja paralel dengan Agen 1. Memantau berita, keterbukaan informasi, dan opini publik terkait entitas target. Agen ini menilai kredibilitas sumber (situs resmi vs media vs forum) dan memberi bobot berbeda, bukan memperlakukan semua sumber setara.
+Agen 3 — The Red Flag Investigator (agen pembeda utama) Menerima keluaran kedua agen sebelumnya dan mencari kontradiksi. Inilah inti nilai Sentinel-AI. Agen ini membandingkan lintas tahun dan lintas dokumen, lalu menyusun hipotesis risiko. Yang menjadikannya agentic: setelah menyusun hipotesis, agen secara aktif mencari bukti penyangkal di bagian dokumen lain sebelum menyimpulkan. Hipotesis yang tidak bertahan dibuang; yang bertahan diteruskan.
+Agen 4 — The Synthesizer & Reporter Menyusun laporan intelijen berjenjang: ringkasan eksekutif untuk pengambil keputusan, dan lampiran teknis lengkap dengan sitasi halaman untuk yang ingin menelusuri sendiri. Agen ini juga menetapkan tingkat keyakinan setiap temuan dan menahan temuan berkeyakinan rendah agar tidak menimbulkan alarm palsu.
+3.3 Fitur Utama
+Verified Document Extraction — ekstraksi metrik keuangan dengan verifikasi aritmetik deterministik, sehingga tidak ada angka yang berasal dari halusinasi model.
+Cross-Document Contradiction Detection — mendeteksi ketidaksesuaian antara pernyataan manajemen, siaran pers, dan angka laporan keuangan.
+Multi-Year Trajectory Analysis — mendeteksi tren yang memburuk secara konsisten meskipun setiap angka tahunannya masih tampak wajar.
+Autonomous Monitoring Loop — memantau entitas yang telah didaftarkan dan bertindak sendiri ketika dokumen atau berita baru muncul.
+Full Traceability — setiap klaim dalam laporan tertaut ke halaman dokumen asal.
+Self-Calibration — membandingkan kekhawatiran yang pernah dinaikkan dengan perkembangan periode berikutnya untuk mengalibrasi ambang batasnya.
+3.4 Nilai Inovasi
+Tiga hal yang membedakan Sentinel-AI dari sistem tanya-jawab dokumen yang umum ditemui:
+Pertama, otonomi berbasis peristiwa. Sistem bekerja tanpa ada yang mengetik apa pun. Pemicunya adalah jadwal dan kemunculan dokumen baru.
+Kedua, verifikasi deterministik atas keluaran model. Di domain keuangan, angka yang salah bukan sekadar kesalahan — ia adalah tanggung jawab hukum. Sentinel-AI memisahkan dengan tegas antara tugas penalaran (dikerjakan LLM) dan tugas perhitungan (dikerjakan Python). LLM tidak diizinkan mengeluarkan angka dari ingatannya.
+Ketiga, hipotesis yang diuji, bukan sekadar dihasilkan. Agen 3 tidak berhenti setelah menemukan pola mencurigakan; ia mencari bukti yang membantah temuannya sendiri. Kemampuan menolak kesimpulan sendiri inilah yang membedakan penalaran dari pencocokan pola.
+
+4. WORKFLOW AI AGENT
+4.1 Diagram Alur Otonom
+Kode xml gambar: 
+<mxGraphModel dx="1030" dy="562" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1300" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <mxCell id="trigger" value="&lt;b&gt;TRIGGER&lt;/b&gt; &lt;i&gt;(tanpa intervensi manusia)&lt;/i&gt;&lt;br&gt;Scheduler harian&amp;nbsp; •&amp;nbsp; Dokumen baru terbit&amp;nbsp; •&amp;nbsp; Berita baru" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;verticalAlign=middle;" vertex="1" parent="1">
+      <mxGeometry x="90" y="40" width="670" height="70" as="geometry" />
+    </mxCell>
+
+    <mxCell id="orch" value="&lt;b&gt;ORCHESTRATOR AGENT&lt;/b&gt;&lt;br&gt;Menyusun rencana investigasi sendiri" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="290" y="160" width="270" height="80" as="geometry" />
+    </mxCell>
+
+    <mxCell id="agen1" value="&lt;b&gt;AGEN 1&lt;/b&gt;&lt;br&gt;&lt;b&gt;Financial Auditor&lt;/b&gt;&lt;br&gt;&lt;br&gt;• Parse dokumen&lt;br&gt;• Ekstraksi metrik&lt;br&gt;• &lt;b&gt;VERIFIKASI aritmetik (Python)&lt;/b&gt;&lt;br&gt;↺ gagal → baca ulang" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=left;verticalAlign=top;spacingLeft=12;spacingTop=8;" vertex="1" parent="1">
+      <mxGeometry x="70" y="300" width="320" height="170" as="geometry" />
+    </mxCell>
+
+    <mxCell id="agen2" value="&lt;b&gt;AGEN 2&lt;/b&gt;&lt;br&gt;&lt;b&gt;Market Intelligence&lt;/b&gt;&lt;br&gt;&lt;br&gt;• Web search&lt;br&gt;• Bobot kredibilitas sumber&lt;br&gt;• Ekstraksi klaim manajemen" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;align=left;verticalAlign=top;spacingLeft=12;spacingTop=8;" vertex="1" parent="1">
+      <mxGeometry x="460" y="300" width="320" height="170" as="geometry" />
+    </mxCell>
+
+    <mxCell id="agen3" value="&lt;b&gt;AGEN 3 — Red Flag Investigator&lt;/b&gt;&lt;br&gt;&lt;br&gt;1. Bandingkan lintas tahun&lt;br&gt;2. Cari kontradiksi&lt;br&gt;3. Susun hipotesis risiko&lt;br&gt;4. &lt;b&gt;CARI BUKTI PENYANGKAL&lt;/b&gt;&lt;br&gt;5. Hipotesis gugur? buang — bertahan? teruskan" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;align=left;verticalAlign=top;spacingLeft=14;spacingTop=8;" vertex="1" parent="1">
+      <mxGeometry x="205" y="530" width="440" height="190" as="geometry" />
+    </mxCell>
+
+    <mxCell id="agen4" value="&lt;b&gt;AGEN 4 — Synthesizer &amp;amp; Reporter&lt;/b&gt;&lt;br&gt;&lt;br&gt;• Skor keyakinan&amp;nbsp;&amp;nbsp; • Sitasi halaman&amp;nbsp;&amp;nbsp; • Laporan berjenjang" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;align=left;verticalAlign=top;spacingLeft=14;spacingTop=10;" vertex="1" parent="1">
+      <mxGeometry x="205" y="780" width="440" height="110" as="geometry" />
+    </mxCell>
+
+    <mxCell id="high" value="&lt;b&gt;Keyakinan TINGGI&lt;/b&gt;&lt;br&gt;→ Kirim notifikasi&lt;br&gt;→ Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="70" y="950" width="320" height="100" as="geometry" />
+    </mxCell>
+
+    <mxCell id="low" value="&lt;b&gt;Keyakinan RENDAH&lt;/b&gt;&lt;br&gt;→ Simpan, pantau periode berikutnya" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="460" y="950" width="320" height="100" as="geometry" />
+    </mxCell>
+
+    <mxCell id="feedback" value="&lt;b&gt;FEEDBACK LOOP&lt;/b&gt;&lt;br&gt;Periode berikutnya: apakah kekhawatiran terkonfirmasi?&lt;br&gt;→ Kalibrasi ambang batas deteksi" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="205" y="1110" width="440" height="100" as="geometry" />
+    </mxCell>
+
+    <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;" edge="1" parent="1" source="trigger" target="orch"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;" edge="1" parent="1" source="orch" target="agen1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;" edge="1" parent="1" source="orch" target="agen2"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e4" value="paralel" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="agen1" target="agen3"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;" edge="1" parent="1" source="agen2" target="agen3"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e6" value="loop mandiri" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;dashed=1;strokeColor=#b85450;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=1;entryY=0.7;entryDx=0;entryDy=0;fontSize=10;" edge="1" parent="1" source="agen3" target="agen3">
+      <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="710" y="587" /><mxPoint x="710" y="663" /></Array></mxGeometry>
+    </mxCell>
+    <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;" edge="1" parent="1" source="agen3" target="agen4"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;" edge="1" parent="1" source="agen4" target="high"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;" edge="1" parent="1" source="agen4" target="low"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;" edge="1" parent="1" source="high" target="feedback"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;" edge="1" parent="1" source="low" target="feedback"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="e12" value="kalibrasi" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;dashed=1;strokeColor=#82b366;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=10;" edge="1" parent="1" source="feedback" target="agen3">
+      <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="150" y="1160" /><mxPoint x="150" y="625" /></Array></mxGeometry>
+    </mxCell>
+
+  </root>
+</mxGraphModel>
+
+4.2 Penjelasan Tahap demi Tahap
+Tahap 0 — Pemicu. Pengguna mendaftarkan entitas yang ingin dipantau satu kali. Setelah itu sistem bekerja mandiri: scheduler memeriksa sumber dokumen secara berkala, dan setiap dokumen baru memicu siklus investigasi.
+Tahap 1 — Perencanaan. Orchestrator memutuskan sendiri strategi investigasi berdasarkan jenis dokumen dan sektor entitas. Laporan tahunan perusahaan properti tidak dianalisis dengan pendekatan yang sama seperti laporan bank. Agen juga memutuskan bagian mana yang perlu dibaca dalam dan bagian mana yang cukup dipindai — membaca 400 halaman secara membabi buta adalah pemborosan token dan waktu.
+Tahap 2 — Ekstraksi terverifikasi. Agen 1 mengekstraksi metrik, lalu menjalankan pemeriksaan konsistensi aritmetik. Bila neraca tidak seimbang atau subtotal tidak cocok, agen menyimpulkan pembacaannya keliru dan mencoba strategi ekstraksi berbeda pada halaman tersebut. Loop ini berjalan sampai konsisten atau sampai agen menyatakan bagian tersebut tidak dapat diekstraksi dengan andal — dan kejujuran itu dilaporkan, bukan disembunyikan.
+Tahap 3 — Intelijen pasar paralel. Agen 2 mengumpulkan konteks eksternal sambil Agen 1 bekerja, sehingga waktu total tidak menjadi penjumlahan keduanya.
+Tahap 4 — Investigasi kontradiksi. Agen 3 menjalankan pemeriksaan silang terhadap serangkaian pola risiko yang telah didefinisikan (lihat 4.3), menyusun hipotesis, lalu mencari bukti penyangkalnya di bagian dokumen lain. Contoh nyata: agen menemukan piutang tumbuh 80% sementara penjualan tumbuh 12%. Sebelum menyimpulkan adanya risiko, agen mencari penjelasan alternatif di catatan — mungkin ada akuisisi anak usaha atau perubahan termin pembayaran yang dijelaskan manajemen. Jika penjelasan itu ditemukan dan memadai, hipotesis diturunkan bobotnya.
+Tahap 5 — Sintesis dan penyaringan. Agen 4 menyusun laporan dan menetapkan tingkat keyakinan. Hanya temuan berkeyakinan tinggi yang memicu notifikasi. Ini keputusan desain yang disengaja: sistem peringatan yang terlalu sering berbunyi akan diabaikan, dan kepercayaan yang hilang tidak kembali.
+Tahap 6 — Kalibrasi mandiri. Pada periode pelaporan berikutnya, sistem memeriksa apakah kekhawatiran yang pernah dinaikkan terkonfirmasi. Hasilnya digunakan untuk menyesuaikan ambang batas deteksi.
+4.3 Pola Risiko yang Dideteksi pada MVP
+Ruang lingkup MVP dibatasi pada tujuh pola yang terdefinisi jelas dan dapat diverifikasi:
+#
+Pola
+Sinyal yang Dicari
+1
+Divergensi laba–kas
+Laba bersih positif sementara arus kas operasi negatif secara berurutan
+2
+Anomali piutang
+Pertumbuhan piutang jauh melampaui pertumbuhan pendapatan
+3
+Anomali persediaan
+Persediaan menumpuk tidak sebanding dengan penjualan
+4
+Eskalasi pihak berelasi
+Proporsi transaksi pihak berelasi membesar tanpa penjelasan memadai
+5
+Sinyal auditor
+Pergantian KAP, opini dengan penekanan, atau keterlambatan penyampaian laporan
+6
+Tekanan likuiditas
+Utang jatuh tempo dalam 12 bulan melampaui kas dan setara kas
+7
+Kontradiksi naratif
+Optimisme dalam pernyataan manajemen berlawanan arah dengan tren angka
+
+
+5. TECHNOLOGY & ARCHITECTURE
+
+
+
+5.1 Tumpukan Teknologi
+Komponen
+Teknologi
+Alasan Pemilihan
+AI Model / LLM
+Claude (Anthropic) atau Gemini generasi terbaru sebagai model penalaran utama; model kelas ringan untuk tugas klasifikasi sederhana
+Konteks panjang untuk dokumen ratusan halaman; strategi dua tingkat menekan biaya secara signifikan
+Agent Framework
+LangGraph sebagai orkestrator utama (mendukung state machine, conditional edge, dan retry loop yang dibutuhkan oleh siklus verifikasi)
+Loop self-correction dan percabangan berbasis kondisi sulit diekspresikan dalam framework berbasis peran murni
+Document Processing
+LlamaParse / Docling untuk parsing tabel keuangan; PyMuPDF untuk ekstraksi terarah per halaman
+Tabel keuangan dalam PDF adalah tantangan teknis utama proyek ini
+Verification Layer
+Python + Pandas dalam sandbox tereksekusi
+Komponen kritis — semua perhitungan bersifat deterministik, tidak dihasilkan LLM
+Retrieval
+LlamaIndex + pgvector, dengan hybrid search (semantik + kata kunci)
+Istilah akuntansi bersifat eksak; pencarian semantik murni tidak memadai
+Web Intelligence
+Tavily Search API / Firecrawl
+Pengumpulan konteks pasar dengan hasil terstruktur
+Database
+PostgreSQL + pgvector
+Menyimpan metrik historis, memori temuan, dan jejak kalibrasi
+Scheduler
+APScheduler / Celery Beat
+Pemicu otonom — komponen yang menjadikan sistem ini agent, bukan aplikasi
+Front-End
+Streamlit untuk MVP; Next.js untuk pengembangan lanjutan
+Streamlit mempercepat iterasi dalam 3 minggu Hackathon Sprint
+Deployment
+Hugging Face Spaces / Railway; PostgreSQL terkelola
+Gratis atau berbiaya rendah, memadai untuk demonstrasi
+
+5.2 Diagram Arsitektur Sistem
+Kode xml: 
+<mxGraphModel dx="1030" dy="562" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="950" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <mxCell id="L1" value="&lt;b&gt;PRESENTATION LAYER&lt;/b&gt;&lt;br&gt;&lt;br&gt;Streamlit Dashboard&amp;nbsp; ·&amp;nbsp; Notifikasi (Email / WhatsApp)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
+      <mxGeometry x="30" y="30" width="790" height="90" as="geometry" />
+    </mxCell>
+
+    <mxCell id="L2" value="&lt;b&gt;AGENT ORCHESTRATION LAYER&lt;/b&gt;&lt;br&gt;&lt;i&gt;(LangGraph)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+      <mxGeometry x="30" y="160" width="790" height="210" as="geometry" />
+    </mxCell>
+    <mxCell id="a1" value="Auditor&lt;br&gt;Agent" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="45" y="210" width="180" height="65" as="geometry" />
+    </mxCell>
+    <mxCell id="a2" value="Market&lt;br&gt;Agent" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="240" y="210" width="180" height="65" as="geometry" />
+    </mxCell>
+    <mxCell id="a3" value="Red Flag&lt;br&gt;Investigator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="435" y="210" width="180" height="65" as="geometry" />
+    </mxCell>
+    <mxCell id="a4" value="Synthesizer&lt;br&gt;Agent" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="630" y="210" width="180" height="65" as="geometry" />
+    </mxCell>
+    <mxCell id="shared" value="&lt;b&gt;SHARED STATE &amp;amp; AGENT MEMORY&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=12;dashed=1;" vertex="1" parent="1">
+      <mxGeometry x="45" y="300" width="765" height="55" as="geometry" />
+    </mxCell>
+
+    <mxCell id="L3" value="&lt;b&gt;TOOL LAYER&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+      <mxGeometry x="30" y="410" width="790" height="150" as="geometry" />
+    </mxCell>
+    <mxCell id="t1" value="Document&lt;br&gt;Parser" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="45" y="455" width="180" height="85" as="geometry" />
+    </mxCell>
+    <mxCell id="t2" value="&lt;b&gt;Python Calculator&lt;/b&gt;&lt;br&gt;&lt;i&gt;(SANDBOX)&lt;/i&gt;&lt;br&gt;verifikasi deterministik" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="240" y="455" width="180" height="85" as="geometry" />
+    </mxCell>
+    <mxCell id="t3" value="Vector&lt;br&gt;Retriever" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="435" y="455" width="180" height="85" as="geometry" />
+    </mxCell>
+    <mxCell id="t4" value="Web Search&lt;br&gt;API" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="630" y="455" width="180" height="85" as="geometry" />
+    </mxCell>
+
+    <mxCell id="L4" value="&lt;b&gt;DATA LAYER&lt;/b&gt;&lt;br&gt;&lt;br&gt;PostgreSQL + pgvector&amp;nbsp; ·&amp;nbsp; Object Storage&amp;nbsp; ·&amp;nbsp; Audit Trail" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
+      <mxGeometry x="30" y="600" width="790" height="90" as="geometry" />
+    </mxCell>
+
+    <mxCell id="L5" value="&lt;b&gt;AUTONOMOUS TRIGGER LAYER&lt;/b&gt;&lt;br&gt;&lt;br&gt;Scheduler&amp;nbsp; ·&amp;nbsp; Document Watcher&amp;nbsp; ·&amp;nbsp; News Monitor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;verticalAlign=top;spacingTop=10;dashed=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="30" y="730" width="790" height="90" as="geometry" />
+    </mxCell>
+
+    <mxCell id="c1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;startArrow=classic;startFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="L1" target="L2"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="c2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;startArrow=classic;startFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="L2" target="L3"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="c3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;startArrow=classic;startFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="L3" target="L4"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="c4" value="memicu siklus" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=2;dashed=1;strokeColor=#6c8ebf;exitX=0.5;exitY=0;entryX=0.5;entryY=1;fontSize=10;" edge="1" parent="1" source="L5" target="L4"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+  </root>
+</mxGraphModel>
+5.3 Keputusan Arsitektur yang Perlu Ditegaskan
+Pemisahan penalaran dan perhitungan. Setiap angka yang muncul dalam laporan Sentinel-AI berasal dari salah satu dari dua sumber: dikutip langsung dari dokumen dengan sitasi halaman, atau dihitung oleh Python dari angka yang telah dikutip. Tidak ada jalur ketiga. LLM berperan menentukan angka mana yang perlu diambil dan apa maknanya, bukan menghasilkan angkanya.
+Strategi model berjenjang. Tugas sederhana (klasifikasi jenis halaman, penyaringan awal) menggunakan model ringan; penalaran kompleks menggunakan model utama. Ini menekan biaya operasional per dokumen ke tingkat yang membuat model bisnis layak.
+Audit trail penuh. Setiap keputusan agen — rencana yang disusun, tool yang dipilih, hasil yang diperoleh, hipotesis yang dibuang — dicatat dan dapat ditampilkan. Ini bukan sekadar fitur debugging; ini bukti otonomi yang akan ditunjukkan kepada dewan juri.
+
+6. IMPACT & FUTURE DEVELOPMENT
+6.1 Manfaat AI Agent
+Efisiensi. Proses yang menghabiskan puluhan jam kerja analis diselesaikan dalam hitungan menit, dan berjalan berulang tanpa biaya marginal manusia.
+Konsistensi lintas waktu. Kemampuan mengingat apa yang tertulis dalam laporan tiga tahun lalu dan membandingkannya dengan hari ini adalah keunggulan struktural mesin atas manusia. Komitmen manajemen yang tidak ditepati dan angka yang direstatement diam-diam menjadi terlihat.
+Demokratisasi akses. Kualitas riset yang selama ini eksklusif bagi institusi menjadi terjangkau bagi UMKM, startup, dan investor perorangan.
+Perlindungan di wilayah tanpa liputan. Nilai terbesar justru berada pada emiten kecil yang tidak diikuti analis mana pun — tepat di tempat investor ritel paling rentan.
+6.2 Dampak yang Diharapkan
+Dimensi
+Dampak
+Individu
+Investor dan pelaku usaha mengambil keputusan berdasarkan bukti yang dapat ditelusuri, bukan rumor atau ajakan media sosial
+Sektoral
+Menurunnya asimetri informasi antara pemodal besar dan kecil di pasar modal Indonesia
+Ekosistem
+Terbentuknya basis data pola risiko emiten Indonesia yang bermanfaat bagi riset dan pengawasan
+Makro
+Kepercayaan terhadap pasar modal adalah prasyarat pendalaman pasar keuangan; setiap kasus kegagalan tata kelola yang terlambat terdeteksi menggerusnya
+
+6.3 Potensi Implementasi
+Tahap awal (B2C/B2B kecil): langganan untuk analis independen, komunitas investor, dan founder startup.
+Tahap menengah (B2B): manajer investasi kecil dan sekuritas tanpa tim riset — segmen dengan kemauan membayar jauh lebih tinggi dan kebutuhan berulang.
+Tahap lanjut (B2B enterprise): analisis kredit debitur korporasi untuk bank dan multifinance; prosedur analitis untuk kantor akuntan publik; pemantauan pihak ketiga untuk fungsi kepatuhan.
+Aset jangka panjang: basis data pola risiko dan graf relasi antar-entitas yang terakumulasi dari waktu ke waktu. Inilah keunggulan yang tidak dapat direplikasi cepat oleh pesaing, karena ia terbentuk dari akumulasi, bukan dari kode.
+6.4 Rencana Pengembangan Selanjutnya
+Fase
+Cakupan
+Fase 1 — MVP (Hackathon Sprint)
+1 sektor, 15–20 entitas, 3 tahun laporan, 7 pola risiko, loop otonom penuh
+Fase 2 — Perluasan cakupan
+Lebih banyak sektor; penambahan pola risiko spesifik per industri
+Fase 3 — Kedalaman format
+Dukungan XBRL dan Excel; ekstraksi dari dokumen hasil pindaian
+Fase 4 — Agen kepatuhan regulasi
+Penambahan agen yang memetakan temuan terhadap ketentuan POJK dan peraturan bursa
+Fase 5 — Graf relasi entitas
+Pemetaan hubungan antar-emiten, pengendali, dan afiliasi untuk mendeteksi risiko yang hanya terlihat pada tingkat jaringan
+Fase 6 — Pemantauan berkelanjutan skala penuh
+Perluasan ke seluruh entitas tercatat dengan dasbor analitik institusional
+
+
+7. RISIKO & MITIGASI
+Bagian ini disertakan secara sengaja. Kesadaran atas keterbatasan adalah bagian dari kematangan rekayasa, bukan kelemahan proposal.
+Risiko
+Tingkat
+Mitigasi
+Halusinasi angka
+Kritis
+Pemisahan penalaran dan perhitungan; verifikasi aritmetik deterministik; setiap angka wajib memiliki sitasi halaman
+Batas hukum penasihat investasi
+Tinggi
+Posisi produk secara tegas sebagai screening & research tool; tidak pernah mengeluarkan rekomendasi beli/jual/tahan; disclaimer eksplisit pada setiap keluaran
+Risiko reputasi entitas yang dianalisis
+Tinggi
+Bahasa yang digunakan adalah "indikator yang perlu klarifikasi", bukan tuduhan; setiap temuan tertaut ke dokumen resmi; ambang keyakinan tinggi sebelum notifikasi
+Kualitas parsing tabel keuangan
+Sedang–Tinggi
+Loop verifikasi dengan strategi ekstraksi berlapis; sistem melaporkan secara jujur bagian yang tidak dapat diekstraksi dengan andal
+Biaya token pada dokumen panjang
+Sedang
+Strategi model berjenjang; agen memilih bagian yang perlu dibaca dalam alih-alih membaca seluruh dokumen
+Moat produk yang tipis
+Sedang
+Akumulasi basis data pola risiko dan graf relasi sebagai keunggulan jangka panjang; fokus pada konteks regulasi dan format dokumen Indonesia
+Efisiensi pasar mengurangi nilai
+Sedang
+Fokus pada coverage gap — entitas yang tidak diliput analis; tidak mengklaim kemampuan memprediksi harga
+
+Batasan yang Dinyatakan Terbuka
+Sentinel-AI tidak memprediksi harga saham, tidak memberikan rekomendasi investasi, dan tidak menggantikan penilaian profesional. Sistem ini mempersempit ruang perhatian manusia dari ratusan entitas menjadi belasan yang layak dibaca, disertai alasan spesifik dan bukti yang dapat ditelusuri. Keputusan tetap milik manusia.
+
+DAFTAR PUSTAKA
+Sumber berikut mendasari klaim kuantitatif dan studi kasus pada Bagian 2 (Problem Statement). Angka bertanda kurung siku di teks merujuk pada nomor sitasi di bawah ini.
+[1] Otoritas Jasa Keuangan / Bursa Efek Indonesia — Data Jumlah Emiten Tercatat. Mendukung klaim jumlah emiten tercatat di pasar modal Indonesia (963 perusahaan per Juli 2026, mendasari angka "lebih dari 900 emiten" pada Bagian 2.1). https://www.antaranews.com/berita/5645975/bei-catat-tujuh-ipo-hingga-juli-2026-empat-emiten-masih-antre (diakses Agustus 2026).
+[2] OJK — Siaran Pers Sanksi Kasus PT Garuda Indonesia (Persero) Tbk. Mendukung klaim adanya kasus manipulasi laporan keuangan emiten Indonesia (sanksi OJK atas penyajian Laporan Keuangan Tahunan 2018 yang tidak sesuai standar, pelanggaran POJK No. 29/POJK.04/2016). https://ojk.go.id/id/berita-dan-kegiatan/siaran-pers/Pages/Siaran-Pers--Otoritas-Jasa-Keuangan-Berikan-Sanksi-Kasus-Pt-Garuda-Indonesia-Persero-Tbk.aspx (diakses Agustus 2026).
+[3] detikFinance — Kasus Manipulasi Laporan Keuangan PT Hanson International Tbk. Mendukung klaim bahwa sinyal risiko sering tersembunyi di detail teknis laporan (manipulasi pengakuan pendapatan penjualan kavling siap bangun pada LKT 2016, pelanggaran PSAK 44 tentang Akuntansi Aktivitas Real Estat). https://finance.detik.com/bursa-dan-valas/d-4658394/terbukti-manipulasi-laporan-keuangan-benny-tjokro-didenda-rp-5-m (diakses Agustus 2026).
+[4] Katadata — OJK Ungkap 32 Kasus Terindikasi Manipulasi Saham di Bursa. Mendukung klaim bahwa masalah ini bukan hipotesis historis (total sanksi denda Rp542,49 miliar kepada 3.418 pihak periode 2022–Januari 2026, termasuk 32 kasus terindikasi manipulasi perdagangan). https://katadata.co.id/finansial/bursa/6989825448f6b/ojk-ungkap-ada-32-kasus-terindikasi-manipulasi-saham-di-bursa (diakses Agustus 2026).
+
+8. LAMPIRAN — PANDUAN EKSEKUSI TIM LASTDANCE
+8.1 Struktur Video Pitch (maksimal 3 menit)
+Segmen
+Durasi
+Isi
+Perkenalan Tim
+±20 detik
+Nama tim LastDance, anggota, institusi, judul AI Agent
+Problem Statement
+±40 detik
+Aritmetika kemustahilan: 900 emiten × 400 halaman. Tunjukkan satu halaman Catatan atas Laporan Keuangan yang padat — visual ini bekerja lebih baik daripada narasi apa pun
+AI Agent Solution
+±90 detik
+Diagram empat agen (20 dtk) → rekaman layar agent yang benar-benar berjalan (40 dtk) → momen self-correction: agen gagal, mengubah strategi, berhasil (30 dtk)
+Impact & Closing
+±30 detik
+Dampak, potensi implementasi, ajakan penutup
+
+Spesifikasi wajib: maksimal 3 menit · minimal 720p · rasio 16:9 · format MP4 · Bahasa Indonesia atau Inggris · diunggah ke YouTube (Unlisted) atau Google Drive dan ditautkan pada portofolio bisa.ai.
+Catatan paling penting: 15–20 detik rekaman agent yang sungguh berjalan bernilai lebih tinggi daripada satu menit animasi arsitektur. Guideline menyatakan prototipe tidak diwajibkan pada Tahap 1 — justru karena itu, memilikinya membuat tim Anda menonjol tajam.
+8.2 Cara Membuktikan "Agent, Bukan Chatbot"
+Empat bukti yang harus terlihat eksplisit di pitch deck, video, dan demo:
+Pemicu tanpa manusia. Tampilkan log eksekusi terjadwal — agent bekerja pada pukul 03.00 tanpa ada yang mengetik.
+Jejak penalaran yang terlihat. Tampilkan agent trace: tujuan → rencana → tool yang dipilih → hasil → keputusan lanjutan. Hampir tidak ada tim yang menunjukkan ini.
+Self-correction. Perlihatkan satu kasus di mana verifikasi aritmetik gagal, agent menyadarinya, mengubah strategi ekstraksi, lalu berhasil. Ini momen yang membuat juri percaya.
+Hipotesis yang dibuang. Tunjukkan agen yang menemukan pola mencurigakan, mencari penjelasan alternatif, menemukannya, lalu menurunkan sendiri tingkat kekhawatirannya. Kemampuan menolak kesimpulan sendiri adalah bukti penalaran paling meyakinkan.
+8.3 Antisipasi Pertanyaan Dewan Juri
+"Apa bedanya dengan mengunggah PDF ke ChatGPT?" Tiga hal: sistem ini berjalan tanpa diminta dan memantau berkelanjutan; setiap angka diverifikasi ulang secara deterministik sehingga tidak ada halusinasi numerik; dan sistem membandingkan lintas tahun serta lintas dokumen, bukan hanya membaca satu berkas dalam satu sesi.
+"Bagaimana menjamin angkanya benar?" LLM tidak diizinkan mengeluarkan angka. Setiap angka dikutip dengan sitasi halaman, dan setiap turunan dihitung ulang dengan Python. Bila neraca tidak seimbang, sistem menyimpulkan pembacaannya keliru dan mengulang.
+"Bukankah ini termasuk memberi nasihat investasi?" Tidak. Sentinel-AI tidak pernah mengeluarkan rekomendasi beli, jual, atau tahan. Ia menyajikan indikator yang perlu diklarifikasi beserta bukti halamannya. Ini penyaringan risiko, bukan penasihatan.
+"Bagaimana kalau agent salah menandai perusahaan yang sebenarnya sehat?" Ada tiga lapis mitigasi: agen mencari bukti penyangkal sebelum menyimpulkan, hanya temuan berkeyakinan tinggi yang memicu notifikasi, dan bahasa yang digunakan bersifat mengajukan pertanyaan, bukan menuduh. Sistem juga mengalibrasi ambangnya berdasarkan hasil periode berikutnya.
+"Apa yang menghalangi pemain besar meniru ini?" Dalam jangka pendek, tidak banyak — dan kami menyatakan itu terbuka. Pertahanan jangka panjang kami adalah akumulasi basis data pola risiko dan graf relasi entitas Indonesia yang hanya terbentuk melalui waktu, ditambah penguasaan atas format dokumen dan konteks regulasi lokal.
+
+Periode
+Fokus
+H-14 s/d H-13
+Finalisasi tim LastDance (2–4 orang), penetapan peran, pendaftaran akun bisa.ai
+H-13 s/d H-11
+Selesaikan minimal 1 course gratis di bisa.ai hingga memperoleh Sertifikat Completion — ini prasyarat publikasi portofolio, jangan sampai menjadi penghambat di hari terakhir
+H-12 s/d H-9
+Bangun prototipe kasar yang sudah berjalan: parsing 1 laporan → verifikasi aritmetik → 2–3 pola risiko → satu siklus otonom
+H-11 s/d H-8
+Riset masalah dengan bukti: wawancara 3–5 calon pengguna nyata. Satu kutipan pengguna asli menaikkan skor Problem Understanding (20%) lebih besar daripada statistik apa pun
+H-8 s/d H-5
+Susun pitch deck sesuai 5 struktur wajib; buat diagram arsitektur dan diagram loop otonomi
+H-5 s/d H-3
+Produksi video pitch; sisipkan rekaman layar agent yang berjalan
+H-3 s/d H-2
+Publikasikan portofolio di bisa.ai; uji seluruh tautan dari perangkat dan jaringan berbeda
+H-1
+Submit melalui bisa.ai/s/daftarNAIC. Jangan mengumpulkan di hari terakhir
+
+8.4 Lini Masa Menuju Tenggat 8 Agustus 20268.5 Tiga Kesalahan yang Paling Sering Menjatuhkan Tim Kuat
+Menjanjikan terlalu banyak fitur. Penilaian Tahap 2 menempatkan AI Agent Implementation pada bobot 30%, bukan jumlah fitur. Satu alur otonom yang berjalan mulus mengalahkan sepuluh fitur setengah jadi.
+Menyembunyikan keterbatasan. Nyatakan terbuka bahwa MVP berjalan pada 15–20 entitas dan satu sektor. Juri berpengalaman langsung mengenali klaim berlebihan, dan kepercayaan yang hilang tidak kembali di sesi Q&A yang berbobot 10%.
+Tautan yang tidak dapat diakses panitia. Repositori GitHub privat wajib diberi akses kepada panitia dan dewan juri; video unlisted harus benar-benar dapat dibuka. Ini penyebab gugur yang paling menyakitkan sekaligus paling mudah dihindari.
+
+RINGKASAN SATU HALAMAN
+Sentinel-AI adalah sistem multi-agen otonom yang membaca dokumen keuangan yang tidak sempat dibaca siapa pun, memverifikasi setiap angka secara deterministik, mencari kontradiksi lintas tahun dan lintas dokumen, menguji hipotesis risikonya sendiri terhadap bukti penyangkal, lalu melaporkan hanya temuan yang bertahan — disertai tautan ke halaman sumbernya.
+Sistem ini bekerja tanpa diminta, mengoreksi dirinya ketika verifikasi gagal, dan mengalibrasi ambang batasnya berdasarkan apa yang terbukti di periode berikutnya.
+Ia tidak memprediksi harga. Ia tidak memberi rekomendasi. Ia mempersempit ruang perhatian manusia dari ratusan entitas menjadi belasan yang layak dibaca — dan menyerahkan keputusan kepada manusia.
+Tim LastDance · BISA AI National AI Agent Challenge 2026
+
+
+
