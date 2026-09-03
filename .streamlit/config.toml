@@ -7,11 +7,11 @@
 
 [theme]
 base = "light"
-primaryColor = "#0F1B3C"
+primaryColor = "#0F1E4A"
 backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F5F7FB"
-textColor = "#0F172A"
-linkColor = "#1D4ED8"
+secondaryBackgroundColor = "#F7F8FA"
+textColor = "#0F1E4A"
+linkColor = "#1d4ed8"
 font = "sans-serif"
 
 [server]
