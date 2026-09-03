@@ -176,8 +176,15 @@ dokumen (halaman asal hipotesis dikecualikan dari pencarian), lalu menilai:
 - **melemah** — penjelasan sebagian; keyakinan diturunkan
 - **bertahan** — tidak ada penjelasan; naik menjadi temuan
 
-Ketiadaan bantahan tidak dianggap konfirmasi: keyakinan hanya dipertahankan,
-tidak dinaikkan.
+Dua hal berbeda dibedakan di sini, dan perbedaannya menggerakkan keyakinan ke
+arah yang berlawanan. Bila pencarian **tidak menemukan kandidat sama sekali**,
+keyakinan hanya dipertahankan, tidak dinaikkan — tidak pernah mencari bukan
+konfirmasi. Bila kandidat **ditemukan lalu dinilai tidak menjelaskan apa pun**,
+keyakinan naik 5% (dibatasi 0,95): bantahan yang diuji dan ditolak adalah bukti
+yang lebih kuat daripada ketiadaan bantahan. Severitas diturunkan dari keyakinan
+akhir ini, sehingga temuan yang sama dapat berpindah tingkat antara eksekusi
+dengan dan tanpa model — perbedaan itu nyata dan disengaja, bukan
+ketidakstabilan.
 
 ### Agen 4 — Synthesizer (`agents/synthesizer.py`)
 

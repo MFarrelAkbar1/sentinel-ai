@@ -280,6 +280,7 @@ def _try_build_vector_index(
         import chromadb
         from llama_index.core import Document, StorageContext, VectorStoreIndex
         from llama_index.core import Settings as LlamaSettings
+        from llama_index.core.llms.mock import MockLLM
         from llama_index.vector_stores.chroma import ChromaVectorStore
     except ImportError as exc:
         log.info("LlamaIndex/Chroma tidak tersedia (%s); memakai BM25.", exc)
@@ -294,7 +295,12 @@ def _try_build_vector_index(
         return None
 
     try:
-        LlamaSettings.llm = None  # retrieval only; no synthesis through LlamaIndex
+        # Retrieval only; no synthesis through LlamaIndex. Assigning MockLLM
+        # rather than None is deliberate: LlamaIndex resolves a None here to the
+        # same MockLLM, but does it via a bare print() to stdout — "LLM is
+        # explicitly disabled. Using MockLLM." — which lands in the middle of the
+        # live audit trail and reads as though Sentinel's own model were off.
+        LlamaSettings.llm = MockLLM()
         directory = Path(persist_dir or settings.index_dir)
         directory.mkdir(parents=True, exist_ok=True)
         client = chromadb.PersistentClient(path=str(directory))

@@ -1,0 +1,1023 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Dokumentasi Proyek — Sentinel-AI</title>
+<style>
+  @page { size: A4; margin: 17mm 15mm 15mm 15mm; }
+  @page :first { margin: 0; }
+
+  :root {
+    --navy: #0F1E4A;
+    --navy-soft: #1B2F63;
+    --gold: #C8A85A;
+    --ivory: #F7F8FA;
+    --text: #16233F;
+    --muted: #5C6B87;
+    --border: #DFE3EB;
+    --red: #C0392B;
+    --green: #1E8E63;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-size: 9.6pt;
+    line-height: 1.55;
+    color: var(--text);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  p { margin: 0 0 0.62em 0; text-align: justify; }
+  b, strong { font-weight: 600; color: var(--navy); }
+  code {
+    font-family: Consolas, "SF Mono", monospace;
+    font-size: 0.88em;
+    background: var(--ivory);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.5pt 3pt;
+    color: var(--navy);
+  }
+
+  /* ── Cover ──────────────────────────────────────────────── */
+  .cover {
+    height: 297mm;
+    background: var(--navy);
+    color: #fff;
+    padding: 30mm 22mm 18mm 22mm;
+    break-after: page;
+    position: relative;
+  }
+  /* The logo art is navy-and-gold on an opaque white ground, so it cannot be
+     knocked out to white with a filter — brightness(0)+invert(1) flattens the
+     whole tile. It sits on its own white chip instead, keeping brand colour. */
+  .cover .logo-tile {
+    width: 27mm; height: 27mm; background: #fff; border-radius: 5mm;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 12mm;
+  }
+  .cover .logo-tile img { width: 19mm; display: block; }
+  .cover .eyebrow {
+    font-size: 8pt; letter-spacing: .26em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 6mm;
+  }
+  .cover h1 {
+    font-size: 34pt; line-height: 1.04; margin: 0 0 5mm 0;
+    letter-spacing: -0.025em; font-weight: 600;
+  }
+  .cover h1 span { color: var(--gold); }
+  .cover .tagline {
+    font-size: 13pt; color: rgba(255,255,255,.80); font-weight: 300;
+    margin: 0 0 9mm 0; letter-spacing: -0.01em;
+  }
+  .cover .rule { border: 0; border-top: 1px solid rgba(255,255,255,.20); margin: 0 0 7mm 0; }
+  .cover .lede {
+    font-size: 10.5pt; line-height: 1.65; color: rgba(255,255,255,.72);
+    max-width: 132mm; text-align: left;
+  }
+  .cover .foot {
+    position: absolute; bottom: 18mm; left: 22mm; right: 22mm;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-size: 8.6pt; color: rgba(255,255,255,.55);
+  }
+  .cover .foot b { color: rgba(255,255,255,.92); font-weight: 500; display: block; }
+  .cover .foot .label {
+    font-size: 7.2pt; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5mm;
+  }
+
+  /* ── Structure ──────────────────────────────────────────── */
+  .page { break-after: page; }
+  .page:last-child { break-after: auto; }
+
+  h2 {
+    font-size: 15pt; color: var(--navy); font-weight: 600;
+    letter-spacing: -0.02em; margin: 0 0 1mm 0;
+    padding-bottom: 2mm; border-bottom: 2px solid var(--gold);
+  }
+  h2 .num {
+    font-size: 9pt; color: var(--gold); font-weight: 600;
+    display: block; letter-spacing: .16em; margin-bottom: 1mm;
+  }
+  h2 + .sub {
+    color: var(--muted); font-size: 9pt; font-style: italic;
+    margin: 2.5mm 0 4mm 0;
+  }
+  h3 {
+    font-size: 10.6pt; color: var(--navy); font-weight: 600;
+    margin: 4.1mm 0 1.6mm 0; letter-spacing: -0.01em;
+  }
+  h4 {
+    font-size: 9.4pt; color: var(--navy); font-weight: 600;
+    margin: 3.5mm 0 1.2mm 0;
+  }
+  /* A heading stranded at the foot of a page with its table overleaf reads as a
+     typesetting accident. Bind every heading to whatever follows it. */
+  h2, h3, h4 { break-after: avoid; }
+
+  ul, ol { margin: 0 0 0.62em 0; padding-left: 5.5mm; }
+  li { margin-bottom: 1.1mm; }
+
+  /* ── Tables ─────────────────────────────────────────────── */
+  table {
+    width: 100%; border-collapse: collapse; font-size: 8.6pt;
+    margin: 2.5mm 0 4mm 0; break-inside: avoid;
+  }
+  th {
+    background: var(--navy); color: #fff; font-weight: 600;
+    text-align: left; padding: 2mm 2.5mm; font-size: 8pt;
+    letter-spacing: .04em;
+  }
+  td { padding: 1.5mm 2.5mm; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tbody tr:nth-child(even) { background: var(--ivory); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.mono { font-family: Consolas, monospace; font-size: 8pt; color: var(--navy); }
+
+  /* ── Figures ────────────────────────────────────────────── */
+  figure { margin: 4mm 0 5mm 0; break-inside: avoid; }
+  figure img {
+    width: 100%; border: 1px solid var(--border); border-radius: 4px;
+    display: block;
+  }
+  figure img.bare { border: 0; }
+  figcaption {
+    font-size: 7.8pt; color: var(--muted); margin-top: 2mm;
+    line-height: 1.45; text-align: left;
+  }
+  figcaption b { color: var(--navy); font-weight: 600; }
+
+  /* ── Callouts ───────────────────────────────────────────── */
+  .note {
+    background: var(--ivory); border-left: 3px solid var(--gold);
+    padding: 2.7mm 4mm; margin: 3mm 0; font-size: 8.8pt;
+    break-inside: avoid; border-radius: 0 4px 4px 0;
+  }
+  .note .h {
+    font-size: 7.4pt; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin-bottom: 1.5mm;
+  }
+  .note p:last-child { margin-bottom: 0; }
+
+  .disclaimer {
+    background: var(--navy); color: rgba(255,255,255,.82);
+    padding: 4mm 5mm; border-radius: 4px; font-size: 8.6pt;
+    margin: 4mm 0; break-inside: avoid;
+  }
+  .disclaimer .h {
+    color: var(--gold); font-size: 7.4pt; letter-spacing: .16em;
+    text-transform: uppercase; font-weight: 700; margin-bottom: 1.5mm;
+  }
+  .disclaimer p { margin: 0; color: rgba(255,255,255,.82); }
+  .disclaimer b { color: #fff; }
+
+  pre {
+    background: var(--navy); color: #E6EAF2; border-radius: 4px;
+    padding: 3mm 4mm; font-family: Consolas, monospace; font-size: 8pt;
+    line-height: 1.5; overflow: hidden; margin: 2.5mm 0 4mm 0;
+    break-inside: avoid; white-space: pre-wrap;
+  }
+  pre .c { color: #8FA0BF; }
+  pre .g { color: var(--gold); }
+
+  /* ── Cards ──────────────────────────────────────────────── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5mm; margin: 3mm 0 4mm 0; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.5mm; margin: 3mm 0 4mm 0; }
+  .card {
+    border: 1px solid var(--border); border-top: 2.5px solid var(--gold);
+    border-radius: 4px; padding: 3mm 3.5mm; break-inside: avoid;
+    background: #fff;
+  }
+  .card .k {
+    font-size: 7.2pt; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin-bottom: 1.2mm;
+  }
+  .card h4 { margin: 0 0 1.5mm 0; font-size: 9.6pt; }
+  .card p { font-size: 8.4pt; margin: 0; color: var(--muted); text-align: left; }
+  .card p b { color: var(--navy); }
+
+  .stat {
+    text-align: center; border: 1px solid var(--border); border-radius: 4px;
+    padding: 3mm 2mm; background: var(--ivory); break-inside: avoid;
+  }
+  .stat .v {
+    font-size: 17pt; font-weight: 600; color: var(--navy);
+    line-height: 1.05; font-variant-numeric: tabular-nums;
+  }
+  .stat .l { font-size: 7.4pt; color: var(--muted); margin-top: 1mm; line-height: 1.35; }
+
+  .verdict {
+    display: inline-block; padding: 0.4mm 2mm; border-radius: 999px;
+    font-size: 7.4pt; font-weight: 700; letter-spacing: .04em;
+  }
+  .v-drop { background: #E8F5EF; color: var(--green); }
+  .v-weak { background: #FDF3E0; color: #9A6B12; }
+  .v-keep { background: #FBEAE8; color: var(--red); }
+
+  /* ── TOC ────────────────────────────────────────────────── */
+  .toc { margin-top: 4mm; }
+  .toc-row {
+    display: flex; align-items: baseline; gap: 2mm;
+    padding: 1.9mm 0; border-bottom: 1px solid var(--border);
+    font-size: 9.2pt;
+  }
+  .toc-row .n {
+    color: var(--gold); font-weight: 700; width: 7mm; flex: none;
+    font-variant-numeric: tabular-nums;
+  }
+  .toc-row .t { color: var(--navy); font-weight: 600; flex: none; }
+  .toc-row .d { color: var(--muted); font-size: 8.4pt; }
+</style>
+</head>
+<body>
+
+<!-- ════════════════ COVER ════════════════ -->
+<section class="cover">
+  <div class="logo-tile"><img src="../logo-sentinel.png" alt=""></div>
+  <div class="eyebrow">Dokumentasi Proyek · AI Agent Prototype</div>
+  <h1>Sentinel<span>-AI</span></h1>
+  <div class="tagline">Membaca Risiko Sebelum Menjadi Kerugian.</div>
+  <hr class="rule">
+  <p class="lede">
+    Sistem multi-agen otonom untuk <i>financial due diligence</i> atas emiten Bursa Efek
+    Indonesia. Sentinel-AI membaca laporan tahunan, memverifikasi setiap angka secara
+    deterministik, mencari kontradiksi lintas dokumen, lalu <b style="color:#fff">menguji setiap
+    hipotesisnya terhadap bukti penyangkal</b> sebelum menyusun Executive Due Diligence
+    Report yang seluruh klaimnya tertaut ke halaman sumber.
+  </p>
+  <div class="foot">
+    <div>
+      <div class="label">Tim Pengembang</div>
+      <b>Muhammad Farrel Akbar</b>
+      <b>Faundra Pratma Sukma</b>
+      <b>Muhammad Setiawan</b>
+    </div>
+    <div style="text-align:right">
+      <div class="label">Kompetisi</div>
+      <b>BISA AI National AI Agent Challenge 2026</b>
+      <span>Dokumen ini menjelaskan MVP tahap prototype</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ TOC ════════════════ -->
+<section class="page">
+  <h2><span class="num">DAFTAR ISI</span>Isi Dokumen</h2>
+  <p class="sub">Empat hal yang diminta panitia — ringkasan proyek, teknologi, cara menjalankan, dan cara kerja — berada pada bagian 1, 5, 6, dan 3–4.</p>
+
+  <div class="toc">
+    <div class="toc-row"><span class="n">1</span><span class="t">Ringkasan Proyek</span><span class="d">— masalah yang diangkat dan bentuk penyelesaiannya</span></div>
+    <div class="toc-row"><span class="n">2</span><span class="t">Arsitektur Sistem</span><span class="d">— enam lapis, dari sumber data sampai dashboard</span></div>
+    <div class="toc-row"><span class="n">3</span><span class="t">Cara Kerja AI Agent</span><span class="d">— alur otonom, graph LangGraph, dan empat agen</span></div>
+    <div class="toc-row"><span class="n">4</span><span class="t">Prinsip yang Ditegakkan Secara Struktural</span><span class="d">— mengapa halusinasi angka tidak dapat direpresentasikan</span></div>
+    <div class="toc-row"><span class="n">5</span><span class="t">Teknologi yang Digunakan</span><span class="d">— pustaka, model, dan alasan pemilihannya</span></div>
+    <div class="toc-row"><span class="n">6</span><span class="t">Cara Menjalankan</span><span class="d">— instalasi, konfigurasi, CLI, dan dashboard</span></div>
+    <div class="toc-row"><span class="n">7</span><span class="t">Antarmuka dan Fitur Utama</span><span class="d">— tangkapan layar sistem yang benar-benar berjalan</span></div>
+    <div class="toc-row"><span class="n">8</span><span class="t">Bukti Eksekusi Nyata</span><span class="d">— satu siklus penuh beserta keempat verdict falsifikasi</span></div>
+    <div class="toc-row"><span class="n">9</span><span class="t">Pengujian</span><span class="d">— 73 pengujian dan kontrak arsitektur yang diuji</span></div>
+    <div class="toc-row"><span class="n">10</span><span class="t">Mengapa Multi-Agen</span><span class="d">— perbandingan pendekatan dan perbandingan proses</span></div>
+    <div class="toc-row"><span class="n">11</span><span class="t">Peta Jalan Pengembangan</span><span class="d">— MVP sampai analisis prediktif</span></div>
+    <div class="toc-row"><span class="n">12</span><span class="t">Batasan yang Diketahui</span><span class="d">— apa yang belum dikerjakan dan mengapa</span></div>
+  </div>
+
+  <div class="disclaimer" style="margin-top:8mm">
+    <div class="h">Pernyataan Ruang Lingkup</div>
+    <p>Sentinel-AI adalah <b>alat riset dan penyaringan risiko, bukan penasihat investasi</b>.
+    Sistem tidak memprediksi harga saham dan tidak memberikan rekomendasi beli, jual, atau
+    tahan. Setiap temuan disajikan sebagai indikator yang perlu diklarifikasi kepada
+    manajemen, disertai tautan ke halaman dokumen sumbernya. Keputusan tetap berada pada
+    manusia.</p>
+  </div>
+
+  <div class="note">
+    <div class="h">Entitas Demo Bersifat Fiktif</div>
+    <p>Seluruh angka yang muncul dalam dokumen ini berasal dari <b>PT ABC Indonesia Tbk
+    (ABCI)</b> — entitas fiktif yang dibangkitkan oleh <code>tools/demo_corpus.py</code> dalam
+    konvensi tata letak laporan BEI. Entitas dibuat fiktif secara sengaja: membangkitkan
+    laporan keuangan atas nama emiten sungguhan lalu menanam indikator risiko di dalamnya
+    akan menghasilkan dokumen yang terbaca sebagai asli dan mencemarkan nama perusahaan
+    yang nyata.</p>
+  </div>
+</section>
+
+<!-- ════════════════ 1. RINGKASAN ════════════════ -->
+<section class="page">
+  <h2><span class="num">BAGIAN 1</span>Ringkasan Proyek</h2>
+  <p class="sub">Masalah yang diangkat, dan bentuk penyelesaiannya.</p>
+
+  <h3>Masalah</h3>
+  <p>Sebuah laporan tahunan emiten Bursa Efek Indonesia berisi ratusan halaman. Untuk
+  menilai apakah ada yang perlu dipertanyakan di dalamnya, seorang analis harus mengunduh
+  dokumen satu per satu, membacanya sebagian, merekonsiliasi angka secara manual, dan
+  membandingkannya dengan tahun sebelumnya serta dengan pernyataan manajemen di media.
+  Prosesnya memakan puluhan jam kerja untuk <i>satu</i> entitas, konsistensinya bergantung
+  pada pengalaman analis, dan hasilnya hanya berlaku untuk satu titik waktu — siklus
+  berikutnya dimulai kembali dari nol.</p>
+
+  <p>Konsekuensinya bukan teoretis. Kasus PT Garuda Indonesia Tbk dan PT Hanson
+  International Tbk menunjukkan bahwa indikator yang kemudian terbukti material sudah
+  terbaca di laporan keuangan yang dipublikasikan — jauh sebelum ada yang menindaklanjutinya.
+  Yang langka bukan datanya, melainkan kapasitas untuk membacanya secara konsisten,
+  berulang, dan untuk banyak entitas sekaligus.</p>
+
+  <h3>Penyelesaian</h3>
+  <p>Sentinel-AI menjalankan siklus <i>due diligence</i> lengkap tanpa perlu diperintah.
+  Empat agen dengan tanggung jawab terpisah bekerja di atas satu <i>state machine</i>:
+  satu agen mengekstraksi dan memverifikasi angka, satu mengumpulkan konteks pasar, satu
+  merumuskan hipotesis risiko lalu <b>berusaha menggugurkan hipotesisnya sendiri</b>, dan
+  satu menyusun laporan berjenjang dengan tingkat keyakinan. Setiap keputusan tercatat di
+  jejak audit, termasuk hipotesis yang akhirnya dibuang.</p>
+
+  <div class="grid4">
+    <div class="stat"><div class="v">4</div><div class="l">Agen dengan peran terpisah</div></div>
+    <div class="stat"><div class="v">8</div><div class="l">Identitas akuntansi diverifikasi</div></div>
+    <div class="stat"><div class="v">7</div><div class="l">Pola deteksi risiko</div></div>
+    <div class="stat"><div class="v">73</div><div class="l">Pengujian otomatis lulus</div></div>
+  </div>
+
+  <h3>Yang membedakan sistem ini</h3>
+  <p>Kebanyakan sistem yang membaca dokumen keuangan berhenti pada tahap <i>menemukan</i>.
+  Sentinel-AI menambahkan satu langkah yang jarang ada: setelah merumuskan sebuah dugaan
+  risiko, agen kembali masuk ke <i>bagian lain</i> dokumen yang sama untuk mencari kalimat
+  yang akan <b>membatalkan</b> dugaan itu — dengan halaman asal hipotesis sengaja
+  dikecualikan dari pencarian. Baru setelah pencarian itu gagal menemukan penjelasan,
+  dugaan naik menjadi temuan.</p>
+
+  <p>Efeknya terlihat langsung pada angka: dalam siklus yang didokumentasikan di Bagian 8,
+  dari empat hipotesis yang lahir dari pola deteksi, <b>satu digugurkan</b> karena agen
+  menemukan penjelasannya sendiri di halaman lain, dan <b>satu melemah</b> hingga jatuh di
+  bawah ambang keyakinan. Sistem yang tidak pernah membuang hipotesisnya sendiri hanya
+  memproduksi alarm; yang membuangnya sedang melakukan penyaringan.</p>
+
+  <div class="note">
+    <div class="h">Kejujuran sebagai Perilaku Bawaan</div>
+    <p>Tanpa API key, sistem tetap berjalan pada <b>jalur deterministik</b>: ekstraksi
+    berbasis kaption, verifikasi aritmetik, tujuh pola deteksi, dan laporan bersitasi tetap
+    dihasilkan. Yang dilewati hanyalah adjudikasi bukti penyangkal dan narasi eksekutif —
+    dan laporan menyatakan hal itu secara eksplisit alih-alih diam-diam menurunkan mutu.</p>
+  </div>
+</section>
+
+<!-- ════════════════ 2. ARSITEKTUR ════════════════ -->
+<section class="page">
+  <h2><span class="num">BAGIAN 2</span>Arsitektur Sistem</h2>
+  <p class="sub">Enam lapis, dari sumber data sampai antarmuka.</p>
+
+  <figure>
+    <img class="bare" src="../arsitektursentinel.png" alt="Arsitektur sistem Sentinel-AI">
+    <figcaption><b>Gambar 1.</b> Arsitektur enam lapis. Lapis orkestrasi memegang
+    <i>state machine</i>; empat agen di lapis 04 memakai tool pada lapis 05 dan tidak
+    pernah menyentuh sumber data secara langsung.</figcaption>
+  </figure>
+
+  <div class="note">
+    <div class="h">Apa yang Sudah Terwujud pada MVP</div>
+    <p>Diagram di atas menggambarkan arsitektur sasaran. Pada MVP tahap ini,
+    lapis <b>01, 03, 04, 05, dan 06 sudah berjalan penuh</b>: dashboard Streamlit,
+    orkestrasi LangGraph, keempat agen, seluruh tool, dan sumber data dokumen serta berita.
+    Dua hal masih berbeda dari diagram dan disebutkan di sini secara terbuka:
+    <b>lapis 02 (API Gateway FastAPI) belum dibangun</b> — dashboard memanggil orkestrator
+    langsung sebagai pustaka Python — dan <b>penyimpanan vektor memakai Chroma, bukan
+    pgvector</b>, dengan jejak audit pada SQLite alih-alih PostgreSQL. Keduanya adalah
+    pilihan sadar untuk tahap prototype: skema sengaja dibuat polos sehingga migrasi ke
+    PostgreSQL hanya mengganti kelas <i>vector store</i>, tanpa menyentuh logika agen.</p>
+  </div>
+
+  <h3>Batas tanggung jawab antarlapis</h3>
+  <table>
+    <thead>
+      <tr><th style="width:22%">Lapis</th><th style="width:34%">Isi</th><th>Alasan pemisahan</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>01 Presentation</b></td>
+        <td>Dashboard Streamlit</td>
+        <td>Menampilkan hasil; tidak memuat logika penilaian apa pun, sehingga tampilan dapat diganti tanpa memengaruhi kesimpulan.</td>
+      </tr>
+      <tr>
+        <td><b>03 Orchestration</b></td>
+        <td>LangGraph — <i>state machine</i>, <i>conditional edge</i>, <i>retry loop</i></td>
+        <td>Satu-satunya tempat yang tahu urutan dan syarat perpindahan antaragen. Alur menjadi objek yang bisa dibaca dan diuji, bukan efek samping.</td>
+      </tr>
+      <tr>
+        <td><b>04 Agent</b></td>
+        <td>Financial Auditor, Market Intelligence, Red Flag Investigator, Synthesizer</td>
+        <td>Setiap agen punya satu tanggung jawab. Keluaran agen sebelumnya menjadi masukan yang diperiksa agen berikutnya.</td>
+      </tr>
+      <tr>
+        <td><b>05 Tool &amp; Model</b></td>
+        <td>LLM engine, Python sandbox, retrieval, document parser</td>
+        <td>Penalaran dan komputasi dipisah di sini. Model memilih baris; Python membaca digitnya.</td>
+      </tr>
+      <tr>
+        <td><b>06 Data Source</b></td>
+        <td>Laporan tahunan, berita dan media, keterbukaan informasi</td>
+        <td>Setiap sumber membawa bobot kredibilitas yang ikut menentukan keyakinan akhir sebuah temuan.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ════════════════ 3. CARA KERJA ════════════════ -->
+<section class="page">
+  <h2><span class="num">BAGIAN 3</span>Cara Kerja AI Agent</h2>
+  <p class="sub">Dari pemicu tanpa manusia sampai laporan bersitasi.</p>
+
+  <figure>
+    <img class="bare" src="../alur-otonom.png" alt="Alur kerja otonom Sentinel-AI" style="max-height:222mm; width:auto; margin:0 auto;">
+    <figcaption><b>Gambar 2.</b> Siklus otonom. Perhatikan <i>loop mandiri</i> pada Agen 3 —
+    di situlah hipotesis diuji terhadap bukti penyangkal dan dibuang bila terbantah.</figcaption>
+  </figure>
+</section>
+
+<section class="page">
+  <h3>Alur graph</h3>
+  <p>Orkestrator dibangun sebagai <i>state machine</i> LangGraph. Agen 1 dan 2 melakukan
+  <i>fan-out</i> dari <code>ingest</code> pada <i>superstep</i> yang sama sehingga
+  benar-benar berjalan paralel; <code>join</code> menunggu keduanya selesai.</p>
+
+<pre>START → plan → ingest ─┬─► financial_auditor ─┐
+                       │                      ├─► join ─┬─<span class="g">(verifikasi gagal)</span>─► audit_retry ─┐
+                       └─► market_intelligence┘         │                          ▲        │
+                                                        │                          └────────┘
+                                                        └─<span class="g">(selesai)</span>─► investigate → synthesize → finalize → END</pre>
+
+  <p>Loop pembacaan ulang berada seluruhnya di cabang audit. Ini disengaja: pembacaan ulang
+  yang lambat tidak boleh mendahului cabang pasar masuk ke investigator, karena Agen 3
+  membutuhkan keduanya sudah lengkap untuk bisa menyilangkan klaim manajemen dengan angka
+  terverifikasi.</p>
+
+  <h3>Empat agen</h3>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="k">Agen 1</div>
+      <h4>Financial Auditor</h4>
+      <p>Mengekstraksi laporan posisi keuangan, laba rugi, dan arus kas, lalu memverifikasinya
+      dengan Pandas. <b>Delapan identitas akuntansi</b> diuji per periode. Ketidakcocokan
+      memicu pembacaan ulang <b>hanya pada baris yang terlibat</b>, dengan strategi meningkat:
+      <code>table_first → text_layout → line_anchored → pdfplumber</code>.</p>
+    </div>
+    <div class="card">
+      <div class="k">Agen 2</div>
+      <h4>Market Intelligence</h4>
+      <p>Berjalan paralel dengan Agen 1. Setiap sumber membawa <b>tier dan bobot kredibilitas</b>
+      — <code>idx.co.id</code> dan <code>ojk.go.id</code> bernilai 1,00; media kredibel 0,70–0,85;
+      forum 0,15. Klaim manajemen diekstraksi dalam bentuk <b>yang dapat diuji</b>, menyimpan
+      metrik penguji dan arah yang diklaim.</p>
+    </div>
+    <div class="card">
+      <div class="k">Agen 3</div>
+      <h4>Red Flag Investigator</h4>
+      <p>Pembeda utama sistem. Tujuh pola deteksi berjalan atas angka terverifikasi dan
+      menghasilkan <b>hipotesis, bukan temuan</b>. Untuk setiap hipotesis, agen merumuskan
+      bukti apa yang akan menggugurkannya, mencarinya di bagian lain dokumen, lalu menilai:
+      <b>digugurkan</b>, <b>melemah</b>, atau <b>bertahan</b>.</p>
+    </div>
+    <div class="card">
+      <div class="k">Agen 4</div>
+      <h4>Synthesizer</h4>
+      <p>Menyusun laporan berjenjang, memberi tingkat keyakinan, dan <b>menahan</b> temuan di
+      bawah ambang 0,55. Temuan yang ditahan tidak dihapus — ia tetap muncul di lampiran
+      teknis beserta alasan penahanannya, sehingga keputusan kalibrasi dapat ditelaah.</p>
+    </div>
+  </div>
+
+  <h3>Delapan identitas akuntansi yang diverifikasi</h3>
+  <table>
+    <thead><tr><th style="width:32%">Identitas</th><th>Formula</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">persamaan_neraca</td><td class="mono">total_aset = total_liabilitas + total_ekuitas</td></tr>
+      <tr><td class="mono">subtotal_aset</td><td class="mono">total_aset = aset_lancar + aset_tidak_lancar</td></tr>
+      <tr><td class="mono">subtotal_liabilitas</td><td class="mono">total_liabilitas = jangka_pendek + jangka_panjang</td></tr>
+      <tr><td class="mono">laba_bruto</td><td class="mono">laba_bruto = pendapatan − beban_pokok</td></tr>
+      <tr><td class="mono">laba_usaha</td><td class="mono">laba_usaha = laba_bruto − beban_usaha</td></tr>
+      <tr><td class="mono">laba_bersih</td><td class="mono">laba_bersih = laba_sebelum_pajak − beban_pajak</td></tr>
+      <tr><td class="mono">rekonsiliasi_arus_kas</td><td class="mono">kas_akhir = kas_awal + operasi + investasi + pendanaan</td></tr>
+      <tr><td class="mono">kas_neraca_vs_arus_kas</td><td class="mono">kas_neraca = kas_akhir_periode</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Tujuh pola deteksi risiko</h3>
+  <table>
+    <thead><tr><th style="width:26%">Pola</th><th style="width:48%">Sinyal</th><th>Ambang</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">arus_kas_vs_laba</td><td>AKO negatif sementara laba bersih positif</td><td>tanda berlawanan</td></tr>
+      <tr><td class="mono">piutang_vs_pendapatan</td><td>pertumbuhan piutang jauh melampaui pendapatan</td><td>selisih ≥ 15 pp</td></tr>
+      <tr><td class="mono">kualitas_laba_akrual</td><td>rasio akrual terhadap total aset</td><td>&gt; 10%</td></tr>
+      <tr><td class="mono">leverage_solvabilitas</td><td>DER, rasio lancar, lonjakan leverage</td><td>DER &gt; 2 · CR &lt; 1</td></tr>
+      <tr><td class="mono">pihak_berelasi</td><td>intensitas transaksi afiliasi di catatan</td><td>≥ 3 bagian</td></tr>
+      <tr><td class="mono">opini_auditor</td><td>modifikasi opini, kelangsungan usaha</td><td>frasa spesifik</td></tr>
+      <tr><td class="mono">klaim_vs_angka</td><td>klaim manajemen bertentangan dengan angka terverifikasi</td><td>arah berlawanan</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ════════════════ 4. PRINSIP ════════════════ -->
+<section class="page">
+  <h2><span class="num">BAGIAN 4</span>Prinsip yang Ditegakkan Secara Struktural</h2>
+  <p class="sub">Bukan diimbau lewat prompt, melainkan dijadikan mustahil oleh bentuk kodenya.</p>
+
+  <h3>1 · Pemisahan penalaran dan komputasi</h3>
+  <p>Model memilih <i>baris mana pada halaman mana</i> yang memuat sebuah metrik; Python
+  membaca digitnya. Skema tool ekstraksi hanya menerima <b>penunjuk</b> —
+  <code>candidate_id</code> dan <code>number_index</code> — sehingga model secara teknis
+  tidak punya tempat untuk menuliskan angka. <b>Model yang tidak pernah mengetik angka
+  tidak dapat berhalusinasi angka.</b></p>
+
+  <h3>2 · Setiap klaim punya sumber</h3>
+  <p><code>core/state.py::Citation</code> hanya memiliki tiga bentuk sah — <code>document</code>
+  (wajib halaman dan kutipan verbatim), <code>computation</code> (wajib formula), dan
+  <code>web</code> (wajib URL) — dan divalidasi Pydantic. Tidak ada jalur keempat, sehingga
+  angka tanpa asal-usul tidak dapat direpresentasikan di dalam sistem.</p>
+
+  <h3>3 · Ketidakpastian yang jujur</h3>
+  <p>Angka yang tetap memecahkan identitas akuntansi setelah seluruh strategi pembacaan
+  habis ditandai <code>tidak_dapat_diekstraksi_dengan_andal</code>. Label itu mengalir sampai
+  ke laporan, dan pola deteksi yang bergantung padanya <b>tidak dijalankan</b> — sistem
+  memilih diam daripada menebak.</p>
+
+  <h3>4 · Jejak audit wajib</h3>
+  <p>Setiap keputusan agen, tool yang dipanggil, hasilnya, dan alasan graph berpindah
+  tercatat di SQLite dengan <i>timestamp</i> — termasuk hipotesis yang digugurkan. Siklus
+  mana pun dapat diputar ulang dengan <code>python main.py trail &lt;run_id&gt;</code>.</p>
+
+  <!-- Bagian 4 runs just over one page. Breaking it here — after the four
+       principles, before the implementation detail — splits it at the seam the
+       argument already has, instead of letting the closing callout spill alone. -->
+  <div style="break-before: page"></div>
+
+  <h3 style="margin-top:0">Penanganan konvensi laporan Indonesia</h3>
+  <p>Sebagian besar kegagalan pembaca otomatis atas laporan BEI bukan kegagalan penalaran,
+  melainkan kegagalan membaca konvensi lokal. Hal-hal berikut ditangani di lapisan parser:</p>
+  <ul>
+    <li><code>1.234.567</code> dibaca 1234567, <code>(1.234)</code> dibaca −1234, <code>12,5</code> dibaca 12.5</li>
+    <li>header <i>"dalam jutaan Rupiah"</i> dideteksi dan skala diterapkan <b>sebelum</b>
+    perbandingan — membandingkan angka berskala dengan yang tidak adalah cara paling umum
+    sebuah pembaca otomatis "menemukan" neraca tidak seimbang yang sebenarnya seimbang</li>
+    <li>kolom referensi Catatan (<code>2c,4</code>) dikenali sebagai bukan nilai</li>
+    <li>kaption terpanjang menang: <i>Jumlah aset lancar</i> tidak pernah terbaca sebagai
+    <i>Jumlah aset</i>, dan <i>Jumlah liabilitas dan ekuitas</i> — yang memuat angka total
+    aset — ditolak</li>
+    <li>beban yang disajikan dalam kurung dicatat sebagai magnitudo, karena kurung menandai
+    pengurangan, bukan beban bernilai negatif</li>
+  </ul>
+
+  <h3>Bagaimana keyakinan bergerak setelah falsifikasi</h3>
+  <p>Dua situasi dibedakan, dan perbedaannya menggerakkan keyakinan ke arah berlawanan.
+  Bila pencarian <b>tidak menemukan kandidat sama sekali</b>, keyakinan hanya dipertahankan,
+  tidak dinaikkan — tidak pernah mencari bukanlah konfirmasi. Bila kandidat <b>ditemukan lalu
+  dinilai tidak menjelaskan apa pun</b>, keyakinan naik 5% dengan batas 0,95: bantahan yang
+  diuji dan ditolak adalah bukti yang lebih kuat daripada ketiadaan bantahan. Severitas
+  diturunkan dari keyakinan akhir ini.</p>
+
+  <div class="note">
+    <div class="h">Konsekuensi yang Perlu Dipahami Pembaca Laporan</div>
+    <p>Karena severitas diturunkan dari keyakinan, temuan yang sama dapat berpindah tingkat
+    antara eksekusi dengan dan tanpa model. Pada dokumen demo, pola <code>opini_auditor</code>
+    muncul sebagai <i>tinggi</i> (keyakinan 0,71) tanpa model dan <i>kritis</i> (0,88) dengan
+    model — dokumen sama, angka dasar sama. Yang berbeda hanyalah apakah ada model yang mampu
+    menimbang lima kutipan penyangkal yang berhasil ditemukan. <b>Perbedaan itu nyata dan
+    disengaja, bukan ketidakstabilan.</b></p>
+  </div>
+</section>
+
+<!-- ════════════════ 5. TEKNOLOGI ════════════════ -->
+<section class="page">
+  <h2><span class="num">BAGIAN 5</span>Teknologi yang Digunakan</h2>
+  <p class="sub">Pustaka, model, dan alasan setiap pemilihan.</p>
+
+  <table>
+    <thead><tr><th style="width:20%">Kategori</th><th style="width:30%">Teknologi</th><th>Peran dan alasan pemilihan</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>Bahasa</b></td>
+        <td class="mono">Python 3.11+ <span style="color:#5C6B87">(diuji 3.13)</span></td>
+        <td>Ekosistem parsing PDF dan analisis numerik paling matang.</td>
+      </tr>
+      <tr>
+        <td><b>Model penalaran</b></td>
+        <td class="mono">claude-sonnet-4-6</td>
+        <td>Ekstraksi terpandu skema, adjudikasi bukti penyangkal, dan sintesis naratif.</td>
+      </tr>
+      <tr>
+        <td><b>Model ringan</b></td>
+        <td class="mono">claude-haiku-4-5</td>
+        <td>Klasifikasi murah pada langkah yang tidak memerlukan penalaran panjang — strategi model berjenjang untuk menekan biaya.</td>
+      </tr>
+      <tr>
+        <td><b>Orkestrasi</b></td>
+        <td class="mono">langgraph<br>langgraph-checkpoint-sqlite</td>
+        <td><i>State machine</i> eksplisit dengan <i>conditional edge</i> dan <i>retry loop</i>. Dipilih karena alur menjadi objek yang dapat diuji, bukan rangkaian pemanggilan bersarang.</td>
+      </tr>
+      <tr>
+        <td><b>Parsing dokumen</b></td>
+        <td class="mono">pymupdf<br>pdfplumber</td>
+        <td>PyMuPDF sebagai parser utama (teks, tabel, koordinat); pdfplumber sebagai strategi cadangan untuk tata letak tabel yang keras kepala.</td>
+      </tr>
+      <tr>
+        <td><b>Verifikasi</b></td>
+        <td class="mono">pandas · numpy</td>
+        <td>Lapisan aritmetik deterministik. Seluruh identitas akuntansi dihitung di sini, tidak pernah oleh model.</td>
+      </tr>
+      <tr>
+        <td><b>Retrieval</b></td>
+        <td class="mono">llama-index-core<br>chromadb<br>HuggingFace embeddings</td>
+        <td>Pencarian semantik bukti penyangkal. Turun otomatis ke BM25 murni-Python bila model embedding tidak tersedia; backend yang dipakai dicatat di jejak audit.</td>
+      </tr>
+      <tr>
+        <td><b>Pencarian web</b></td>
+        <td class="mono">tavily-python · httpx</td>
+        <td>Berita dan keterbukaan informasi, dengan tier kredibilitas per domain.</td>
+      </tr>
+      <tr>
+        <td><b>Penjadwal</b></td>
+        <td class="mono">apscheduler</td>
+        <td>Dua pemicu otonom: sapuan terjadwal harian dan deteksi dokumen baru tiap 15 menit.</td>
+      </tr>
+      <tr>
+        <td><b>Antarmuka</b></td>
+        <td class="mono">streamlit · altair</td>
+        <td>Dashboard dan grafik lintasan skor. Dipilih untuk kecepatan iterasi pada tahap MVP.</td>
+      </tr>
+      <tr>
+        <td><b>Skema &amp; konfigurasi</b></td>
+        <td class="mono">pydantic · python-dotenv</td>
+        <td>Validasi <i>state</i> antaragen. Pydantic-lah yang membuat sitasi tanpa sumber mustahil direpresentasikan.</td>
+      </tr>
+      <tr>
+        <td><b>Penyimpanan</b></td>
+        <td class="mono">SQLite · Chroma</td>
+        <td>Jejak audit dan indeks vektor. Skema sengaja polos agar migrasi ke PostgreSQL + pgvector tidak menyentuh logika agen.</td>
+      </tr>
+      <tr>
+        <td><b>Pengujian</b></td>
+        <td class="mono">pytest</td>
+        <td>73 pengujian; integrasi memakai <i>stub</i> LLM, bukan panggilan jaringan.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Jalur peningkatan yang sudah disiapkan di kode</h3>
+  <ul>
+    <li><b>SQLite → PostgreSQL</b> — skema jejak audit sengaja dibuat polos, tanpa fitur khas SQLite.</li>
+    <li><b>Chroma → pgvector</b> — hanya kelas <i>vector store</i> yang berubah; tidak ada yang di atas <code>DocumentIndex</code> perlu disentuh.</li>
+    <li><b>Penyedia model lain</b> — seluruh pemanggilan model melewati <code>core/llm.py</code>, sehingga penggantian penyedia tidak menyentuh logika agen.</li>
+  </ul>
+</section>
+
+<!-- ════════════════ 6. CARA MENJALANKAN ════════════════ -->
+<section class="page">
+  <h2><span class="num">BAGIAN 6</span>Cara Menjalankan</h2>
+  <p class="sub">Dari repositori kosong sampai laporan pertama.</p>
+
+  <h3>1 · Instalasi</h3>
+<pre><span class="c"># Windows</span>
+python -m venv .venv && .venv\Scripts\activate
+pip install -r requirements.txt
+
+<span class="c"># Linux / macOS</span>
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt</pre>
+
+  <h3>2 · Konfigurasi</h3>
+<pre>copy .env.example .env       <span class="c"># Windows</span>
+cp .env.example .env         <span class="c"># Linux / macOS</span></pre>
+  <p>Isi <code>ANTHROPIC_API_KEY</code> dan <code>TAVILY_API_KEY</code>. Keduanya opsional —
+  tanpa keduanya sistem tetap berjalan pada jalur deterministik dan menyatakan hal itu di
+  laporan.</p>
+
+  <table>
+    <thead><tr><th style="width:34%">Variabel</th><th style="width:20%">Default</th><th>Keterangan</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">ANTHROPIC_API_KEY</td><td>—</td><td>Tanpa ini sistem berjalan deterministik</td></tr>
+      <tr><td class="mono">SENTINEL_MODEL_PRIMARY</td><td class="mono">claude-sonnet-4-6</td><td>Penalaran: ekstraksi, falsifikasi, sintesis</td></tr>
+      <tr><td class="mono">SENTINEL_MODEL_LIGHT</td><td class="mono">claude-haiku-4-5</td><td>Klasifikasi murah</td></tr>
+      <tr><td class="mono">TAVILY_API_KEY</td><td>—</td><td>Tanpa ini Agen 2 memakai fixture atau dilewati</td></tr>
+      <tr><td class="mono">SENTINEL_OFFLINE</td><td class="mono">0</td><td><code>1</code> menonaktifkan seluruh panggilan jaringan</td></tr>
+      <tr><td class="mono">SENTINEL_VERIFY_REL_TOLERANCE</td><td class="mono">0.005</td><td>Toleransi relatif identitas akuntansi</td></tr>
+      <tr><td class="mono">SENTINEL_MAX_EXTRACTION_ATTEMPTS</td><td class="mono">3</td><td>Batas pembacaan ulang</td></tr>
+      <tr><td class="mono">SENTINEL_MIN_CONFIDENCE</td><td class="mono">0.55</td><td>Ambang temuan naik ke ringkasan eksekutif</td></tr>
+      <tr><td class="mono">SENTINEL_MONITOR_CRON</td><td class="mono">0 3 * * *</td><td>Jadwal sapuan otonom</td></tr>
+      <tr><td class="mono">SENTINEL_WATCHLIST</td><td class="mono">GOTO,BUMI,TLKM</td><td>Entitas yang dipantau</td></tr>
+    </tbody>
+  </table>
+
+  <h3>3 · Menjalankan</h3>
+<pre>python main.py demo          <span class="c"># pipeline lengkap + jejak audit langsung</span>
+streamlit run frontend/app.py  <span class="c"># dashboard</span>
+pytest -q                    <span class="c"># 73 pengujian</span></pre>
+
+  <h3>Seluruh perintah CLI</h3>
+  <table>
+    <thead><tr><th style="width:46%">Perintah</th><th>Fungsi</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">python main.py demo</td><td>Siklus penuh atas dokumen demo, jejak audit tercetak langsung</td></tr>
+      <tr><td class="mono">python main.py demo --rebuild</td><td>Membangun ulang dokumen demo dari awal</td></tr>
+      <tr><td class="mono">python main.py analyze GOTO --pdf a.pdf</td><td>Analisis laporan emiten sungguhan</td></tr>
+      <tr><td class="mono">python main.py runs</td><td>Riwayat seluruh siklus yang pernah dijalankan</td></tr>
+      <tr><td class="mono">python main.py trail &lt;run_id&gt;</td><td>Memutar ulang jejak keputusan satu siklus</td></tr>
+      <tr><td class="mono">python main.py monitor --once</td><td>Satu sapuan otonom lalu keluar</td></tr>
+      <tr><td class="mono">python main.py monitor</td><td>Pemantauan berkelanjutan</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Pemantauan otonom</h3>
+<pre>python -m scheduler.monitor --tickers ABCI,GOTO --doc-dir data/documents</pre>
+  <p>Dua pemicu berjalan: sapuan terjadwal (<code>SENTINEL_MONITOR_CRON</code>, default 03:00)
+  dan deteksi dokumen baru tiap 15 menit. Setiap entitas disidik dengan <i>hash</i> isi berkas,
+  sehingga siklus hanya berjalan ketika dokumen benar-benar berubah — menganalisis ulang
+  laporan yang tidak berubah hanya menghabiskan token untuk laporan yang identik.</p>
+
+  <h3>Menjalankan atas emiten sungguhan</h3>
+  <p>Unduh laporan tahunan dari <b>idx.co.id</b>, lalu:</p>
+<pre>python main.py analyze GOTO --pdf laporan.pdf \
+       --name "PT GoTo Gojek Tokopedia Tbk" --sector teknologi</pre>
+</section>
+
+<!-- ════════════════ 7. ANTARMUKA ════════════════ -->
+<section class="page">
+  <h2><span class="num">BAGIAN 7</span>Antarmuka dan Fitur Utama</h2>
+  <p class="sub">Tangkapan layar dari sistem yang benar-benar berjalan, bukan mockup.</p>
+
+  <figure>
+    <img src="../screenshot/image1.png" alt="Layar awal dashboard Sentinel-AI">
+    <figcaption><b>Gambar 3.</b> Layar awal. Panel kiri memuat pemilihan sumber dokumen —
+    dokumen demo, unggahan laporan tahunan, atau berkas di direktori pantauan — dan
+    <b>Status sistem</b> yang menyatakan secara terbuka model mana yang aktif, apakah
+    pencarian web tersedia, serta ambang keyakinan dan toleransi verifikasi yang berlaku.
+    Pengguna tahu persis dalam konfigurasi apa laporan dihasilkan.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="../screenshot/image2.png" alt="Skor risiko komposit dan lintasan">
+    <figcaption><b>Gambar 4.</b> Skor risiko komposit dengan tiga angka penyertanya: pola
+    dijalankan, temuan dipertahankan, dan <b>hipotesis digugurkan</b>. Skor bersifat terbalik —
+    makin tinggi makin aman. Panel kanan menampilkan lintasan skor antar-siklus pemantauan,
+    sehingga perubahan profil risiko sebuah entitas terbaca sebagai tren, bukan sebagai
+    potret tunggal.</figcaption>
+  </figure>
+</section>
+
+<section class="page">
+  <figure>
+    <img src="../screenshot/image3.png" alt="Ringkasan eksekutif">
+    <figcaption><b>Gambar 5.</b> Ringkasan eksekutif. Narasi menyebut angka spesifik beserta
+    periodenya, dan menyatakan secara eksplisit bahwa satu hipotesis telah digugurkan setelah
+    ditemukan penjelasannya — termasuk catatan bahwa validasi dokumentasi kontrak tetap
+    diperlukan. Sistem melaporkan apa yang ia buang, bukan hanya apa yang ia temukan.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="../screenshot/image.png" alt="Lampiran teknis">
+    <figcaption><b>Gambar 6.</b> Lampiran teknis. Setiap angka ditampilkan bersama periode,
+    status verifikasi, <b>halaman asal</b>, strategi pembacaan yang berhasil, dan
+    <b>baris sumber verbatim</b> dari dokumen. Perhatikan status
+    <code>belum_diverifikasi</code> pada <i>persediaan</i> — sistem tidak menyembunyikan angka
+    yang tidak masuk ke dalam identitas akuntansi mana pun. Tab lain memuat verifikasi
+    aritmetik, indikator turunan, sumber pasar, dan jejak audit.</figcaption>
+  </figure>
+</section>
+
+<!-- ════════════════ 8. BUKTI EKSEKUSI ════════════════ -->
+<section class="page">
+  <h2><span class="num">BAGIAN 8</span>Bukti Eksekusi Nyata</h2>
+  <p class="sub">Satu siklus penuh, dijalankan pada 3 September 2026 · run <code>6403d85c277b</code>.</p>
+
+  <p>Bagian ini bukan deskripsi rancangan melainkan catatan satu eksekusi yang benar-benar
+  terjadi, dengan model dan pencarian web aktif. Seluruh angka di bawah diambil dari jejak
+  audit siklus tersebut.</p>
+
+  <div class="grid4">
+    <div class="stat"><div class="v">78,7</div><div class="l">Skor komposit dari 100 — Medium Risk</div></div>
+    <div class="stat"><div class="v">16/16</div><div class="l">Identitas akuntansi cocok</div></div>
+    <div class="stat"><div class="v">41</div><div class="l">Keputusan tercatat di jejak audit</div></div>
+    <div class="stat"><div class="v">26</div><div class="l">Sitasi terlampir di laporan</div></div>
+  </div>
+
+  <h3>Jalannya siklus</h3>
+  <table>
+    <thead><tr><th style="width:14%">Langkah</th><th style="width:30%">Agen</th><th>Hasil</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">001–004</td><td>Orchestrator</td><td>Menyusun rencana investigasi sendiri (prioritas <code>piutang_vs_pendapatan</code>, <code>kualitas_laba_akrual</code>), parsing 9 halaman, membangun indeks retrieval — backend <b>chroma</b>, pencarian semantik aktif</td></tr>
+      <tr><td class="mono">005–017</td><td>Financial Auditor</td><td>Ekstraksi tiga laporan keuangan, <b>16 dari 16 identitas akuntansi cocok</b> tanpa perlu pembacaan ulang, 22 rasio dan 9 tren dihitung dari angka tersitasi</td></tr>
+      <tr><td class="mono">006–014</td><td>Market Intelligence <span style="color:#5C6B87">(paralel)</span></td><td>7 kueri, <b>34 sumber unik</b> — tier 2: 2, tier 3: 31, tier 4: 1. Tidak ada klaim manajemen yang dapat diuji, sehingga pola <code>klaim_vs_angka</code> tidak dijalankan</td></tr>
+      <tr><td class="mono">018–019</td><td>Orchestrator</td><td>Menggabungkan kedua cabang paralel: 46 angka terekstraksi, 34 sumber pasar terkumpul</td></tr>
+      <tr><td class="mono">020–036</td><td>Red Flag Investigator</td><td>7 pola dijalankan → 4 hipotesis → pencarian bukti penyangkal → <b>3 dipertahankan, 1 digugurkan</b></td></tr>
+      <tr><td class="mono">037–041</td><td>Synthesizer</td><td>Ambang keyakinan 0,55 diterapkan: 2 ditampilkan, 1 ditahan. Skor 78,7 — Medium Risk</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Keempat verdict falsifikasi dalam satu siklus</h3>
+  <p>Inilah bagian yang paling menunjukkan bahwa agen benar-benar menguji dugaannya sendiri.
+  Empat hipotesis menghasilkan empat hasil yang berbeda:</p>
+
+  <table>
+    <thead><tr><th style="width:8%">ID</th><th style="width:26%">Hipotesis</th><th style="width:13%">Verdict</th><th>Alasan yang dicatat agen</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="mono">H2</td>
+        <td>Piutang tumbuh 39,0% sementara pendapatan tumbuh 9,7%</td>
+        <td><span class="verdict v-drop">DIGUGURKAN</span></td>
+        <td>Setelah menarik 6 kutipan dari bagian lain dokumen, agen menemukan bahwa lonjakan piutang disebabkan perubahan syarat pembayaran dari 60 ke 90 hari untuk pelanggan institusional baru. <b>Hipotesis dibuang oleh agen itu sendiri.</b></td>
+      </tr>
+      <tr>
+        <td class="mono">H1</td>
+        <td>Arus kas operasi negatif Rp145 miliar meski laba bersih positif Rp214 miliar</td>
+        <td><span class="verdict v-weak">MELEMAH</span></td>
+        <td>Kutipan menjelaskan sebagian — arus kas negatif terutama berasal dari peningkatan piutang akibat perubahan termin. Keyakinan diturunkan hingga jatuh di bawah ambang 0,55 dan temuan ditahan di lampiran teknis.</td>
+      </tr>
+      <tr>
+        <td class="mono">H3</td>
+        <td>DER 2,17x dan rasio lancar 0,96x</td>
+        <td><span class="verdict v-keep">BERTAHAN</span></td>
+        <td>Kutipan justru <i>memperkuat</i> hipotesis: pinjaman jangka pendek melonjak hampir dua kali lipat dari Rp730 miliar menjadi Rp1.520 miliar. Naik menjadi temuan dengan severitas sedang.</td>
+      </tr>
+      <tr>
+        <td class="mono">H4</td>
+        <td>Opini auditor memuat <i>emphasis of matter</i> dan <i>going concern</i></td>
+        <td><span class="verdict v-keep">BERTAHAN</span></td>
+        <td>Lima kutipan ditarik, tidak satu pun menyentuh isi laporan auditor. Ketiadaan penjelasan pada bagian lain dokumen membuat hipotesis naik menjadi temuan berkategori kritis (keyakinan 0,88).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <div class="h">Mengapa Ini Penting</div>
+    <p>Sebuah sistem yang selalu mengembalikan seluruh dugaannya sebagai temuan tidak sedang
+    menyaring apa pun — ia hanya memindahkan beban verifikasi kembali ke manusia. Dalam
+    siklus ini, <b>dua dari empat dugaan tidak sampai ke ringkasan eksekutif</b>: satu
+    dibuang, satu ditahan di bawah ambang. Keduanya tetap tercatat lengkap di lampiran
+    teknis beserta alasannya, sehingga keputusan itu dapat ditelaah dan tidak perlu
+    dipercaya begitu saja.</p>
+  </div>
+
+  <h3>Perbandingan: dengan dan tanpa model</h3>
+  <p>Dokumen yang sama dijalankan dua kali untuk menunjukkan apa yang sebenarnya disumbangkan
+  oleh lapisan penalaran — dan apa yang tetap berjalan tanpanya.</p>
+
+  <table>
+    <thead><tr><th style="width:40%">Aspek</th><th style="width:30%">Jalur deterministik</th><th>Dengan model aktif</th></tr></thead>
+    <tbody>
+      <tr><td>Verifikasi aritmetik</td><td>16/16 cocok</td><td>16/16 cocok — <i>identik</i></td></tr>
+      <tr><td>Cakupan verifikasi</td><td>100%</td><td>100% — <i>identik</i></td></tr>
+      <tr><td>Pola dijalankan</td><td>7</td><td>7 — <i>identik</i></td></tr>
+      <tr><td><b>Hipotesis digugurkan</b></td><td>0</td><td><b>1</b></td></tr>
+      <tr><td>Temuan naik ke ringkasan</td><td>4</td><td>2 <span style="color:#5C6B87">(+1 ditahan)</span></td></tr>
+      <tr><td>Skor komposit</td><td>63,2 — Medium Risk</td><td>78,7 — Medium Risk</td></tr>
+      <tr><td>Pemakaian model</td><td>—</td><td>9 panggilan · 23.082 token masuk · 5.881 token keluar</td></tr>
+    </tbody>
+  </table>
+
+  <p>Bacaannya: <b>lapisan deterministik menghasilkan seluruh angka dan seluruh pola tanpa
+  bantuan model sama sekali</b>. Yang disumbangkan model adalah kemampuan menimbang bukti
+  penyangkal — dan efeknya adalah laporan yang <i>lebih sedikit</i> alarmnya, bukan lebih
+  banyak. Tanpa model, sistem bersikap konservatif dan menahan diri untuk tidak menyimpulkan;
+  dengan model, ia dapat memutuskan mana dugaan yang sudah terjawab oleh dokumen itu sendiri.</p>
+</section>
+
+<!-- ════════════════ 9. PENGUJIAN ════════════════ -->
+<section class="page">
+  <h2><span class="num">BAGIAN 9</span>Pengujian</h2>
+  <p class="sub">73 pengujian, seluruhnya lulus.</p>
+
+<pre>$ pytest -q
+........................................................................ [ 98%]
+.                                                                        [100%]
+<span class="g">73 passed in 25.49s</span></pre>
+
+  <table>
+    <thead><tr><th style="width:34%">Berkas</th><th style="width:14%">Jumlah</th><th>Cakupan</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">tests/test_verification.py</td><td>58</td><td>Lapisan deterministik: parsing angka Indonesia, penerapan skala, identitas akuntansi, pemilihan kaption, strategi pembacaan ulang</td></tr>
+      <tr><td class="mono">tests/test_pipeline.py</td><td>15</td><td>Integrasi pipeline, perpindahan graph, jalur falsifikasi, dan pembentukan laporan</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Yang sebenarnya diuji oleh pengujian integrasi</h3>
+  <p>Pengujian integrasi memakai <b>stub LLM</b>, bukan panggilan jaringan. Itu bukan sekadar
+  soal kecepatan CI. Stub hanya bisa mengembalikan <i>penunjuk</i> baris dan kolom, dan
+  asersinya memastikan angka yang dihasilkan memang berasal dari dokumen. Stub yang mencoba
+  mengembalikan angka tidak punya tempat untuk menaruhnya — dengan kata lain,
+  <b>kontrak arsitekturnya yang diuji, bukan hanya dijelaskan</b>.</p>
+
+  <div class="note">
+    <div class="h">Menguji Perilaku Saat Pembacaan Gagal</div>
+    <p>Varian dokumen yang sengaja tidak konsisten dapat dibangkitkan untuk mendemonstrasikan
+    loop pembacaan ulang:</p>
+    <pre style="margin:2mm 0 0 0">from tools.demo_corpus import build_demo_pdf
+build_demo_pdf(overwrite=True, corrupt_balance=True)</pre>
+    <p style="margin-top:2mm">Sistem akan mencoba tiga strategi pembacaan berturut-turut, gagal
+    merekonsiliasi baris ekuitas, lalu melaporkannya sebagai
+    <code>tidak dapat diekstraksi dengan andal</code> — alih-alih menebak.</p>
+  </div>
+</section>
+
+<!-- ════════════════ 10. MENGAPA MULTI-AGEN ════════════════ -->
+<section class="page">
+  <h2><span class="num">BAGIAN 10</span>Mengapa Multi-Agen</h2>
+  <p class="sub">Pemisahan peran bukan hiasan arsitektur, melainkan syarat agar keluaran dapat diperiksa.</p>
+
+  <figure>
+    <img class="bare" src="../mengapa-multiagent.png" alt="Perbandingan pendekatan satu model versus multi-agen">
+    <figcaption><b>Gambar 7.</b> Pada pendekatan satu model, kesalahan di tahap awal terbawa
+    sampai laporan akhir tanpa ada yang memeriksanya. Pada pendekatan multi-agen, keluaran
+    satu agen menjadi masukan yang diverifikasi agen berikutnya.</figcaption>
+  </figure>
+
+  <figure>
+    <img class="bare" src="../perbandingan-proses.jpg" alt="Perbandingan proses analisis konvensional dan Sentinel-AI">
+    <figcaption><b>Gambar 8.</b> Perbedaan yang paling menentukan ada di baris terakhir:
+    analisis konvensional <i>berhenti</i>, dan siklus berikutnya dimulai kembali dari nol;
+    Sentinel-AI kembali memantau tanpa perlu diperintah.</figcaption>
+  </figure>
+</section>
+
+<!-- ════════════════ 11. ROADMAP ════════════════ -->
+<section class="page">
+  <h2><span class="num">BAGIAN 11</span>Peta Jalan Pengembangan</h2>
+  <p class="sub">Setiap tahap menaikkan tingkat kemandirian sistem, bukan sekadar menambah fitur.</p>
+
+  <figure>
+    <img class="bare" src="../peningkatan.png" alt="Peta jalan pengembangan Sentinel-AI">
+    <figcaption><b>Gambar 9.</b> Kolom <b>MVP</b> adalah cakupan yang didokumentasikan di
+    dokumen ini dan sudah berjalan.</figcaption>
+  </figure>
+
+  <h3>Prioritas terdekat</h3>
+  <table>
+    <thead><tr><th style="width:26%">Pekerjaan</th><th>Alasan dan dampaknya</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>API Gateway (FastAPI)</b></td>
+        <td>Memisahkan dashboard dari orkestrator sesuai <code>docs/api_contract.md</code>, sehingga antarmuka lain — mobile, notifikasi, integrasi pihak ketiga — dapat memakai mesin yang sama.</td>
+      </tr>
+      <tr>
+        <td><b>Validasi atas laporan emiten sungguhan</b></td>
+        <td>Menguji <code>document_parser.py</code> terhadap 15–20 laporan tahunan nyata dari satu sektor. Parsing tabel keuangan adalah tantangan teknis utama proyek ini dan harus divalidasi terhadap dokumen asli, bukan hanya korpus demo.</td>
+      </tr>
+      <tr>
+        <td><b>Kalibrasi ambang berbasis data</b></td>
+        <td>Ambang pola saat ini dikalibrasi terhadap konvensi penyaringan umum. Kalibrasi terhadap basis data temuan historis akan menggantikannya.</td>
+      </tr>
+      <tr>
+        <td><b>Dukungan OCR</b></td>
+        <td>Membuka laporan hasil pindai yang saat ini belum dapat diproses.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ════════════════ 12. BATASAN ════════════════ -->
+<section class="page">
+  <h2><span class="num">BAGIAN 12</span>Batasan yang Diketahui</h2>
+  <p class="sub">Dinyatakan terbuka, karena sistem yang menyembunyikan batasnya tidak dapat dipercaya soal apa pun.</p>
+
+  <ul>
+    <li><b>Kosakata metrik terbatas pada pos utama.</b> <code>core/state.py::METRIC_VOCABULARY</code>
+    mencakup pos utama laporan keuangan. Emiten sektor keuangan memakai kaption berbeda dan
+    memerlukan penambahan alias sebelum dapat dianalisis dengan benar.</li>
+
+    <li><b>Retrieval dapat turun ke BM25.</b> Bila model embedding tidak tersedia, backend
+    turun ke pencarian leksikal. Kaption laporan keuangan Indonesia sangat terstandardisasi
+    sehingga penurunannya kecil, tetapi pencarian parafrase melemah. Backend yang dipakai
+    selalu dicatat di jejak audit, sehingga penurunan itu tidak pernah terjadi diam-diam.</li>
+
+    <li><b>Laporan hasil pindai belum didukung.</b> Dokumen tanpa lapisan teks memerlukan OCR,
+    yang belum masuk pipeline.</li>
+
+    <li><b>Ambang pola belum dikalibrasi terhadap data historis.</b> Ambang saat ini mengikuti
+    konvensi penyaringan umum, bukan basis data temuan historis. Kalibrasi berbasis data
+    adalah pekerjaan tahap berikutnya.</li>
+
+    <li><b>API Gateway belum dibangun.</b> Dashboard memanggil orkestrator langsung sebagai
+    pustaka Python. Kontraknya sudah ditulis di <code>docs/api_contract.md</code>, implementasinya belum.</li>
+
+    <li><b>Klaim manajemen bergantung pada ketersediaan sumber.</b> Pada siklus yang
+    didokumentasikan di Bagian 8, tidak ada klaim yang dapat diuji sehingga pola
+    <code>klaim_vs_angka</code> tidak dijalankan sama sekali. Sistem melaporkannya sebagai pola
+    yang tidak berjalan, bukan sebagai pola yang lulus.</li>
+  </ul>
+
+  <div class="disclaimer" style="margin-top:7mm">
+    <div class="h">Penutup</div>
+    <p>Sentinel-AI adalah <b>alat riset dan penyaringan risiko, bukan penasihat investasi</b>.
+    Sistem tidak memprediksi harga saham dan tidak memberikan rekomendasi beli, jual, atau
+    tahan. Setiap temuan disajikan sebagai indikator yang perlu diklarifikasi kepada
+    manajemen, disertai tautan ke halaman dokumen sumbernya. Angka yang tidak dapat
+    diverifikasi dinyatakan demikian, bukan ditebak. Keputusan tetap berada pada manusia.</p>
+  </div>
+
+  <div style="margin-top:9mm; padding-top:4mm; border-top:1px solid var(--border); font-size:8.2pt; color:var(--muted);">
+    <b style="color:var(--navy)">Sentinel-AI</b> · BISA AI National AI Agent Challenge 2026 ·
+    Muhammad Farrel Akbar, Faundra Pratma Sukma, Muhammad Setiawan<br>
+    Rujukan kuantitatif, studi kasus PT Garuda Indonesia Tbk dan PT Hanson International Tbk,
+    serta dasar pemilihan teknologi tercantum pada <code>files/SENTINEL-AI-LAST-REPORT.pdf</code>.
+  </div>
+</section>
+
+</body>
+</html>
