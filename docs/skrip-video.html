@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Skrip Video Demo — Sentinel-AI</title>
+<style>
+  @page { size: A4; margin: 15mm 14mm; }
+
+  :root {
+    --navy: #0F1E4A;
+    --gold: #C8A85A;
+    --ivory: #F7F8FA;
+    --text: #16233F;
+    --muted: #5C6B87;
+    --border: #DFE3EB;
+    --red: #C0392B;
+    --green: #1E8E63;
+  }
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-size: 9.5pt; line-height: 1.55; color: var(--text);
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  p { margin: 0 0 0.6em 0; }
+  b, strong { font-weight: 600; color: var(--navy); }
+  code {
+    font-family: Consolas, "SF Mono", monospace; font-size: 0.87em;
+    background: var(--ivory); border: 1px solid var(--border);
+    border-radius: 3px; padding: 0.4pt 2.6pt; color: var(--navy);
+  }
+
+  /* ── Title band ─────────────────────────────────────────── */
+  .band {
+    background: var(--navy); color: #fff; margin: -15mm -14mm 6mm -14mm;
+    padding: 11mm 14mm 9mm 14mm;
+  }
+  .band .eyebrow {
+    font-size: 7.4pt; letter-spacing: .24em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 3mm;
+  }
+  .band h1 {
+    margin: 0 0 2.5mm 0; font-size: 22pt; font-weight: 600;
+    letter-spacing: -0.025em; line-height: 1.1;
+  }
+  .band h1 span { color: var(--gold); }
+  .band p { margin: 0; font-size: 9pt; color: rgba(255,255,255,.72); max-width: 140mm; }
+
+  h2 {
+    font-size: 13pt; color: var(--navy); font-weight: 600;
+    letter-spacing: -0.02em; margin: 5.5mm 0 2.6mm 0;
+    padding-bottom: 1.8mm; border-bottom: 2px solid var(--gold);
+    break-after: avoid;
+  }
+  h2:first-of-type { margin-top: 0; }
+  h3 {
+    font-size: 10pt; color: var(--navy); font-weight: 600;
+    margin: 5mm 0 2mm 0; break-after: avoid;
+  }
+
+  /* ── Tables ─────────────────────────────────────────────── */
+  table {
+    width: 100%; border-collapse: collapse; font-size: 8.5pt;
+    margin: 2.5mm 0 4mm 0; break-inside: avoid;
+  }
+  th {
+    background: var(--navy); color: #fff; font-weight: 600; text-align: left;
+    padding: 1.9mm 2.4mm; font-size: 7.9pt; letter-spacing: .04em;
+  }
+  td { padding: 1.5mm 2.4mm; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tbody tr:nth-child(even) { background: var(--ivory); }
+  td.mono { font-family: Consolas, monospace; font-size: 7.9pt; color: var(--navy); }
+  tr.hot td { background: #FDF6E7; }
+  tr.hot td:first-child { font-weight: 600; }
+
+  /* ── Callouts ───────────────────────────────────────────── */
+  .note {
+    background: var(--ivory); border-left: 3px solid var(--gold);
+    padding: 2.8mm 4mm; margin: 3mm 0; font-size: 8.8pt;
+    break-inside: avoid; border-radius: 0 4px 4px 0;
+  }
+  .note .h {
+    font-size: 7.2pt; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin-bottom: 1.3mm;
+  }
+  .note p:last-child { margin-bottom: 0; }
+
+  .warn {
+    background: var(--navy); color: rgba(255,255,255,.85);
+    padding: 3.4mm 4.5mm; border-radius: 4px; font-size: 9pt;
+    margin: 3.5mm 0; break-inside: avoid;
+  }
+  .warn b { color: #fff; }
+  .warn p { margin: 0; }
+
+  pre {
+    background: var(--navy); color: #E6EAF2; border-radius: 4px;
+    padding: 2.6mm 3.5mm; font-family: Consolas, monospace; font-size: 7.6pt;
+    line-height: 1.45; margin: 2mm 0 3mm 0; break-inside: avoid;
+    white-space: pre-wrap; word-break: break-all;
+  }
+  pre .c { color: #8FA0BF; }
+
+  /* ── Script segments ────────────────────────────────────────
+     Two columns: a time gutter you can find at a glance while
+     recording, and the block you actually read aloud. */
+  .seg {
+    display: grid; grid-template-columns: 26mm 1fr; gap: 4mm;
+    padding: 3.5mm 0; border-top: 1px solid var(--border);
+    break-inside: avoid;
+  }
+  .seg.key { background: #FDF6E7; margin: 0 -3mm; padding: 3.5mm 3mm;
+             border-top: 2px solid var(--gold); border-radius: 4px; }
+
+  .seg .when { text-align: right; }
+  .seg .when .t {
+    font-family: Consolas, monospace; font-size: 10pt; font-weight: 700;
+    color: var(--navy); line-height: 1.2; letter-spacing: -0.02em;
+  }
+  .seg .when .d {
+    font-size: 7.4pt; color: var(--muted); margin-top: 0.6mm;
+  }
+  .seg .when .tag {
+    display: inline-block; margin-top: 1.6mm; padding: 0.5mm 1.8mm;
+    border-radius: 3px; font-size: 6.6pt; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+  }
+  .tag-live { background: #FBEAE8; color: var(--red); }
+  .tag-ppt { background: #E9EDF5; color: var(--navy); }
+  .tag-rec { background: #E8F5EF; color: var(--green); }
+
+  .seg .what h4 {
+    margin: 0 0 1.5mm 0; font-size: 10pt; color: var(--navy); font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .screen {
+    font-size: 8.1pt; color: var(--muted); margin: 0 0 2mm 0;
+    padding-left: 3.4mm; border-left: 2px solid var(--border);
+  }
+  .screen b { color: var(--navy); font-weight: 600; }
+
+  /* The lines actually spoken — set larger and looser than anything
+     else on the page, because they are read aloud off this sheet. */
+  .say {
+    font-size: 10.2pt; line-height: 1.62; color: var(--text);
+  }
+  .say p { margin: 0 0 1.9mm 0; }
+  .say p:last-child { margin-bottom: 0; }
+  .say .beat {
+    display: block; font-size: 7.4pt; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--gold); font-weight: 700;
+    margin: 2.4mm 0 1.2mm 0;
+  }
+
+  /* ── Checklist ──────────────────────────────────────────── */
+  .check { list-style: none; padding: 0; margin: 2mm 0 4mm 0; }
+  .check li {
+    position: relative; padding-left: 6.5mm; margin-bottom: 2.2mm;
+    font-size: 8.8pt; break-inside: avoid;
+  }
+  .check li::before {
+    content: ""; position: absolute; left: 0; top: 0.7mm;
+    width: 3.4mm; height: 3.4mm; border: 1.2px solid var(--navy);
+    border-radius: 1px;
+  }
+
+  /* Four slides as a compact 2x2 block rather than a table — the table's
+     header row and padding cost more vertical space than the content. */
+  .ppt {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.6mm 4mm;
+    margin: 2.5mm 0 0 0; font-size: 8.5pt;
+  }
+  .ppt div {
+    border-left: 2px solid var(--gold); padding: 0.4mm 0 0.4mm 2.6mm;
+    line-height: 1.4;
+  }
+  .ppt b { color: var(--gold); margin-right: 1.2mm; }
+  .ppt span {
+    display: block; font-family: Consolas, monospace; font-size: 7.2pt;
+    color: var(--muted);
+  }
+
+  ol.principles { padding-left: 5mm; margin: 2mm 0 0 0; font-size: 8.9pt; }
+  ol.principles li { margin-bottom: 2.2mm; }
+
+  .foot {
+    margin-top: 7mm; padding-top: 3mm; border-top: 1px solid var(--border);
+    font-size: 7.8pt; color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<div class="band">
+  <div class="eyebrow">Dokumen Produksi · Sentinel-AI</div>
+  <h1>Skrip Video Demo <span>· 5 Menit</span></h1>
+  <p>Format: PPT singkat di awal, sisanya demo sistem yang benar-benar berjalan.
+  Naskah berjumlah 689 kata — 4 menit 36 detik pada 150 kata per menit. Setiap segmen sudah
+  dicocokkan terhadap jatahnya sendiri, bukan hanya totalnya.</p>
+</div>
+
+<h2>Fakta yang menentukan bentuk skrip ini</h2>
+<p>Dua angka di bawah diukur dari eksekusi nyata, dan keduanya membatalkan asumsi "demo
+langsung saja saat rekaman".</p>
+
+<table>
+  <thead><tr><th style="width:42%">Yang dijalankan</th><th style="width:14%">Durasi</th><th>Konsekuensi untuk video</th></tr></thead>
+  <tbody>
+    <tr class="hot"><td class="mono">main.py demo — dengan API key</td><td><b>179 detik</b></td><td>Mustahil dijalankan live. Ini memakan <b>3 dari 5 menit</b> yang kamu punya.</td></tr>
+    <tr><td class="mono">main.py demo — offline</td><td>1 detik</td><td>Aman dijalankan live</td></tr>
+    <tr><td class="mono">main.py analyze — dokumen tidak konsisten</td><td>1 detik</td><td>Aman dijalankan live, termasuk loop 3× baca ulang</td></tr>
+    <tr class="hot"><td class="mono">main.py trail &lt;run_id&gt;</td><td><b>instan</b></td><td>Senjata utama video ini</td></tr>
+  </tbody>
+</table>
+
+<p><b>Strateginya:</b> jalankan siklus LLM <b>sebelum</b> merekam, lalu di dalam video putar
+ulang jejak keputusannya dengan <code>trail</code> — instan, dan tetap catatan run asli yang
+tersimpan di SQLite, bukan simulasi. Yang direkam live hanya bagian yang memang cepat.</p>
+
+<div class="warn">
+  <p>Jangan pernah merekam layar sambil menunggu 3 menit. Juri tidak menilai kesabaranmu, dan
+  <b>setiap detik menunggu adalah detik yang dicuri dari penjelasan</b>.</p>
+</div>
+
+<h2>Peta waktu</h2>
+<table>
+  <thead><tr><th style="width:16%">Waktu</th><th style="width:11%">Durasi</th><th style="width:44%">Segmen</th><th>Layar</th></tr></thead>
+  <tbody>
+    <tr><td class="mono">0:00–0:22</td><td>22 dtk</td><td>Masalah</td><td>PPT 1</td></tr>
+    <tr><td class="mono">0:22–0:45</td><td>23 dtk</td><td>Mengapa multi-agen</td><td>PPT 2</td></tr>
+    <tr><td class="mono">0:45–1:05</td><td>20 dtk</td><td>Arsitektur</td><td>PPT 3</td></tr>
+    <tr><td class="mono">1:05–1:23</td><td>18 dtk</td><td>Demo dimulai — konfigurasi terbuka</td><td>Dashboard</td></tr>
+    <tr><td class="mono">1:23–1:52</td><td>29 dtk</td><td>Siklus berjalan + verifikasi aritmetik</td><td>Rekaman dipercepat</td></tr>
+    <tr class="hot"><td class="mono">1:52–2:45</td><td><b>53 dtk</b></td><td><b>Falsifikasi — hipotesis digugurkan</b></td><td>Terminal <code>trail</code></td></tr>
+    <tr><td class="mono">2:45–3:12</td><td>27 dtk</td><td>Hasil: skor, temuan, pertanyaan</td><td>Dashboard</td></tr>
+    <tr><td class="mono">3:12–3:35</td><td>23 dtk</td><td>Sitasi — setiap angka punya halaman</td><td>Lampiran teknis</td></tr>
+    <tr><td class="mono">3:35–4:14</td><td>39 dtk</td><td>Koreksi diri saat pembacaan gagal</td><td>Terminal, live</td></tr>
+    <tr><td class="mono">4:14–4:38</td><td>24 dtk</td><td>Otonomi — berjalan tanpa diperintah</td><td>Terminal, live</td></tr>
+    <tr><td class="mono">4:38–5:00</td><td>22 dtk</td><td>Penutup + batasan</td><td>PPT 4</td></tr>
+  </tbody>
+</table>
+
+<p>Sisa <b>24 detik</b> di luar naskah adalah jeda — waktu diam saat menunjuk layar; jangan
+diisi. Segmen falsifikasi mendapat jatah terbesar secara sengaja: itulah satu-satunya bagian
+yang tidak dimiliki peserta lain.</p>
+
+<div style="break-before: page"></div>
+
+<h2>Slide PPT — hanya 4, total 65 detik</h2>
+<div class="ppt">
+  <div><b>1</b> Judul + masalah: ratusan halaman, puluhan jam, satu entitas<span>logo-sentinel.png</span></div>
+  <div><b>2</b> Mengapa multi-agen, bukan satu model<span>mengapa-multiagent.png</span></div>
+  <div><b>3</b> Arsitektur enam lapis<span>arsitektursentinel.png</span></div>
+  <div><b>4</b> Penutup: berjalan hari ini + batasan + disclaimer<span>tanpa gambar</span></div>
+</div>
+<p style="margin-top:2.5mm">Jangan menambah slide — setiap slide tambahan mengambil waktu dari
+demo, dan yang dinilai adalah agennya yang berjalan, bukan deknya.</p>
+
+<h2>Naskah</h2>
+
+<div class="seg">
+  <div class="when"><div class="t">0:00</div><div class="d">22 detik</div><span class="tag tag-ppt">PPT 1</span></div>
+  <div class="what">
+    <h4>Masalah</h4>
+    <div class="say">
+      <p>Satu laporan tahunan emiten Bursa Efek Indonesia berisi ratusan halaman. Untuk
+      menilainya, seorang analis butuh puluhan jam — untuk <b>satu</b> perusahaan.</p>
+      <p>Kasus Garuda Indonesia dan Hanson International menunjukkan hal penting: indikatornya
+      sudah ada di laporan yang dipublikasikan. Yang langka bukan datanya — melainkan
+      kapasitas membacanya secara konsisten.</p>
+    </div>
+  </div>
+</div>
+
+<div class="seg">
+  <div class="when"><div class="t">0:22</div><div class="d">23 detik</div><span class="tag tag-ppt">PPT 2</span></div>
+  <div class="what">
+    <h4>Mengapa multi-agen</h4>
+    <div class="say">
+      <p>Sentinel-AI menjalankan siklus itu tanpa perlu diperintah. Tapi kami tidak memakai
+      satu model untuk semuanya, dan itu keputusan yang sengaja.</p>
+      <p>Kalau satu model menangani ekstraksi sampai pelaporan, kesalahan di tahap awal
+      terbawa sampai akhir tanpa ada yang memeriksanya. Di Sentinel-AI ada empat agen dengan
+      tanggung jawab terpisah — dan keluaran satu agen menjadi masukan yang
+      <b>diverifikasi</b> agen berikutnya.</p>
+    </div>
+  </div>
+</div>
+
+<div class="seg">
+  <div class="when"><div class="t">0:45</div><div class="d">20 detik</div><span class="tag tag-ppt">PPT 3</span></div>
+  <div class="what">
+    <h4>Arsitektur</h4>
+    <div class="say">
+      <p>Ini arsitekturnya. Yang paling menentukan ada di lapis kelima: <b>penalaran dan
+      komputasi dipisah</b>. Model hanya memilih baris mana yang memuat sebuah angka. Yang
+      membaca digitnya adalah Python.</p>
+      <p>Skema tool-nya hanya menerima penunjuk baris — model tidak punya tempat untuk
+      mengetik angka. Model yang tidak pernah mengetik angka tidak bisa berhalusinasi angka.</p>
+    </div>
+  </div>
+</div>
+
+<div class="seg">
+  <div class="when"><div class="t">1:05</div><div class="d">18 detik</div><span class="tag tag-live">Live</span></div>
+  <div class="what">
+    <h4>Demo dimulai — konfigurasi terbuka</h4>
+    <p class="screen"><b>Layar:</b> dashboard di layar awal, sorot panel <b>Status sistem</b> di kiri.</p>
+    <div class="say">
+      <p>Kita mulai. Perhatikan panel kiri: sistem menyatakan terbuka model apa yang aktif,
+      apakah pencarian web tersedia, dan ambang keyakinan yang dipakai. Pengguna selalu tahu
+      dalam kondisi apa laporan ini dihasilkan.</p>
+      <p>Dokumennya PT ABC Indonesia — entitas fiktif, sengaja, agar kami tidak menanam
+      indikator risiko atas nama perusahaan nyata.</p>
+    </div>
+  </div>
+</div>
+
+<div class="seg">
+  <div class="when"><div class="t">1:23</div><div class="d">29 detik</div><span class="tag tag-rec">Rekaman</span></div>
+  <div class="what">
+    <h4>Siklus berjalan — dipercepat 8×</h4>
+    <p class="screen"><b>Layar:</b> rekaman terminal saat siklus asli berjalan, dipercepat.
+    Beri label di sudut: <code>dipercepat 8× · durasi asli 2 menit 59 detik</code>.</p>
+    <div class="say">
+      <p>Siklus penuh berjalan sekitar tiga menit — ini dipercepat delapan kali.</p>
+      <p>Agen 1 dan Agen 2 berjalan <b>paralel</b>: satu membaca laporan keuangan, satu
+      mengumpulkan berita. Dan di sinilah lapisan yang menentukan — <b>enam belas dari enam
+      belas identitas akuntansi diverifikasi dengan Python</b>. Bukan ditanyakan ke model.
+      Dihitung.</p>
+    </div>
+  </div>
+</div>
+
+<div class="seg key">
+  <div class="when"><div class="t">1:52</div><div class="d">53 detik</div><span class="tag tag-live">Inti</span></div>
+  <div class="what">
+    <h4>Falsifikasi — hipotesis digugurkan</h4>
+    <p class="screen"><b>Layar:</b> terminal, jalankan <code>python main.py trail &lt;run_id&gt;</code>.
+    Gulir ke langkah <b>028–036</b>. Perbesar font. <b>Diam sejenak</b> di baris
+    <code>H2: digugurkan</code>.</p>
+    <div class="say">
+      <p>Sekarang bagian yang paling penting.</p>
+      <p>Agen 3 menjalankan tujuh pola deteksi dan menemukan empat dugaan. Sistem lain akan
+      berhenti di sini dan melaporkan keempatnya sebagai temuan.</p>
+      <p>Sentinel-AI tidak. Untuk setiap dugaan, agen merumuskan bukti apa yang akan
+      <b>membatalkannya</b>, lalu mencarinya di bagian <b>lain</b> dokumen yang sama — dengan
+      halaman asal dugaan sengaja dikecualikan.</p>
+      <p>Lihat hipotesis H2. Piutang tumbuh tiga puluh sembilan persen, pendapatan hanya
+      sembilan koma tujuh. Mencurigakan. Agen menyusun kueri sendiri, menarik enam kutipan,
+      dan menemukan penjelasannya: perubahan syarat pembayaran dari enam puluh ke sembilan
+      puluh hari untuk pelanggan institusional baru.</p>
+      <span class="beat">Beri jeda di sini</span>
+      <p><b>Hipotesisnya digugurkan. Oleh agen itu sendiri.</b></p>
+      <p>Dari empat dugaan, dua tidak sampai ke ringkasan eksekutif — satu dibuang, satu
+      melemah di bawah ambang. Sistem yang tidak pernah membuang dugaannya sendiri bukan
+      sedang menyaring; ia hanya memindahkan beban verifikasi kembali ke manusia.</p>
+    </div>
+  </div>
+</div>
+
+<div class="seg">
+  <div class="when"><div class="t">2:45</div><div class="d">27 detik</div><span class="tag tag-live">Live</span></div>
+  <div class="what">
+    <h4>Hasil</h4>
+    <p class="screen"><b>Layar:</b> panel skor komposit dan daftar temuan.</p>
+    <div class="say">
+      <p>Hasilnya: skor tujuh puluh delapan koma tujuh dari seratus. Skornya terbalik — makin
+      tinggi makin aman.</p>
+      <p>Perhatikan tiga angka di bawah gauge: pola dijalankan, temuan dipertahankan, dan
+      <b>hipotesis digugurkan</b>. Angka ketiga itu yang membuat dua angka pertama layak
+      dipercaya.</p>
+      <p>Dan setiap temuan tidak berhenti sebagai peringatan — ia diakhiri dengan
+      <b>pertanyaan spesifik yang bisa langsung diajukan ke manajemen</b>.</p>
+    </div>
+  </div>
+</div>
+
+<div class="seg">
+  <div class="when"><div class="t">3:12</div><div class="d">23 detik</div><span class="tag tag-live">Live</span></div>
+  <div class="what">
+    <h4>Sitasi — setiap angka punya halaman</h4>
+    <p class="screen"><b>Layar:</b> tab <b>Angka terekstraksi</b> di lampiran teknis. Sorot
+    kolom <code>Hal.</code> dan <code>Baris sumber</code>.</p>
+    <div class="say">
+      <p>Setiap angka bisa ditelusuri: periode, status verifikasi, <b>halaman asalnya</b>,
+      strategi pembacaan yang berhasil, dan baris sumber persis seperti tertulis di dokumen.</p>
+      <p>Perhatikan baris berstatus <code>belum_diverifikasi</code>. Sistem tidak
+      menyembunyikan angka yang tidak masuk ke dalam identitas akuntansi mana pun. Yang tidak
+      bisa diverifikasi, dinyatakan demikian.</p>
+    </div>
+  </div>
+</div>
+
+<div class="seg">
+  <div class="when"><div class="t">3:35</div><div class="d">39 detik</div><span class="tag tag-live">Live</span></div>
+  <div class="what">
+    <h4>Koreksi diri saat pembacaan gagal</h4>
+    <p class="screen"><b>Layar:</b> terminal. Jalankan langsung — hanya butuh 1 detik.</p>
+<pre>python main.py analyze ABCI --pdf data/documents/ABCI_Laporan_Tahunan_2025_DEMO_TIDAK_KONSISTEN.pdf --name "PT ABC Indonesia Tbk" --sector konsumer</pre>
+    <div class="say">
+      <p>Lalu apa yang terjadi kalau pembacaannya gagal? Ini dokumen yang sengaja dibuat tidak
+      konsisten — neracanya tidak seimbang.</p>
+      <p>Percobaan satu, strategi <code>table_first</code>: neraca meleset empat ratus tujuh
+      puluh miliar. Agen memutuskan membaca ulang — dan perhatikan, <b>hanya tiga metrik yang
+      bermasalah</b>, bukan seluruh dokumen. Percobaan dua, strategi berbeda: masih gagal.
+      Percobaan tiga: masih gagal.</p>
+      <p>Dan inilah yang dilakukan sistem: ketiga angka itu <b>ditandai tidak dapat
+      diekstraksi dengan andal</b>. Pola deteksi yang bergantung padanya <b>tidak
+      dijalankan</b>, dan laporan menyatakan itu secara eksplisit.</p>
+      <p>Sistem ini memilih diam daripada menebak.</p>
+    </div>
+  </div>
+</div>
+
+<div class="seg">
+  <div class="when"><div class="t">4:14</div><div class="d">24 detik</div><span class="tag tag-live">Live</span></div>
+  <div class="what">
+    <h4>Otonomi — berjalan tanpa diperintah</h4>
+    <p class="screen"><b>Layar:</b> terminal, <code>python main.py monitor --once</code>.</p>
+    <div class="say">
+      <p>Terakhir: tidak ada yang mengetik apa pun untuk memulai semua ini.</p>
+      <p>Dua pemicu berjalan sendiri — sapuan terjadwal setiap pukul tiga pagi, dan deteksi
+      dokumen baru setiap lima belas menit. Setiap berkas disidik dengan hash isinya, jadi
+      siklus hanya berjalan kalau dokumennya benar-benar berubah.</p>
+      <p>Menganalisis ulang laporan yang tidak berubah hanya menghabiskan token untuk laporan
+      yang identik.</p>
+    </div>
+  </div>
+</div>
+
+<div class="seg">
+  <div class="when"><div class="t">4:38</div><div class="d">22 detik</div><span class="tag tag-ppt">PPT 4</span></div>
+  <div class="what">
+    <h4>Penutup</h4>
+    <div class="say">
+      <p>Sentinel-AI berjalan hari ini: empat agen, tujuh puluh tiga pengujian lulus, siklus
+      penuh dari dokumen sampai laporan bersitasi.</p>
+      <p>Yang belum: laporan hasil pindai, dan kalibrasi ambang terhadap data historis. Kami
+      menyebutkannya karena sistem yang menyembunyikan batasnya tidak bisa dipercaya soal apa
+      pun.</p>
+      <p>Sentinel-AI adalah alat penyaringan risiko, <b>bukan penasihat investasi</b>. Ia
+      menyiapkan pertanyaan yang tepat. Keputusannya tetap milik manusia.</p>
+    </div>
+  </div>
+</div>
+
+<div style="break-before: page"></div>
+
+<h2>Persiapan sebelum merekam</h2>
+
+<h3>H-1</h3>
+<ul class="check">
+  <li>Jalankan <code>python main.py demo</code> <b>dengan API key aktif</b>. Rekam layarnya
+  untuk dipakai di segmen 1:23 (dipercepat 8×). Catat <code>run_id</code> yang keluar.</li>
+  <li><b>Verifikasi hipotesis gugur ≥ 1.</b> Kalau 0, ulangi — tanpa itu segmen inti video hilang.</li>
+  <li>Bangun dokumen varian tidak konsisten:
+    <pre style="margin-top:1.5mm">from tools.demo_corpus import build_demo_pdf
+build_demo_pdf(overwrite=True, corrupt_balance=True)</pre></li>
+  <li>Jalankan <code>python main.py runs</code> — pastikan riwayat berisi beberapa siklus
+  supaya grafik <b>Lintasan skor risiko</b> di dashboard tidak kosong.</li>
+  <li>Uji <code>python main.py trail &lt;run_id&gt;</code> dan catat nomor langkah falsifikasi
+  (di run acuan: <b>028–036</b>).</li>
+</ul>
+
+<h3>Sesaat sebelum rekam</h3>
+<ul class="check">
+  <li>Font terminal diperbesar — <b>minimal 16pt</b>. Jejak audit tidak berguna kalau tidak terbaca.</li>
+  <li>Terminal dimaksimalkan, dashboard di tab browser terpisah yang <b>sudah</b> memuat hasil.</li>
+  <li>Rekam 1920×1080. Matikan notifikasi.</li>
+  <li>Bersihkan layar dari baris berisik yang bukan milik Sentinel — peringatan
+  <code>HF_TOKEN</code> dan progress bar <code>Loading weights</code> dari HuggingFace muncul
+  saat indeks dibangun.</li>
+</ul>
+
+<h2>Rencana cadangan</h2>
+<table>
+  <thead><tr><th style="width:32%">Kalau ini gagal</th><th>Lakukan ini</th></tr></thead>
+  <tbody>
+    <tr><td><b>API key habis kuota saat H-1</b></td><td>Pakai jalur deterministik untuk seluruh video. Segmen falsifikasi diganti dengan <code>trail</code> atas run lama yang sudah berhasil — jejaknya tersimpan permanen di SQLite.</td></tr>
+    <tr><td><b>Run LLM menghasilkan 0 hipotesis gugur</b></td><td>Ulangi run. Kalau tetap 0, pakai <code>trail 6403d85c277b</code> — run yang terdokumentasi di Bagian 8 dokumentasi proyek.</td></tr>
+    <tr><td><b>Demo live gagal saat rekaman</b></td><td>Kedua perintah live hanya butuh 1 detik. Ulangi take, jangan dipaksakan.</td></tr>
+    <tr class="hot"><td><b>Video melebihi 5 menit</b></td><td>Potong segmen otonomi (4:14–4:38) lebih dulu, lalu segmen sitasi. <b>Jangan pernah</b> memotong segmen falsifikasi.</td></tr>
+  </tbody>
+</table>
+
+<h2>Prinsip penyuntingan</h2>
+<ol class="principles">
+  <li><b>Falsifikasi adalah videonya.</b> Kalau juri hanya mengingat satu hal, itu harus momen
+  agen membuang hipotesisnya sendiri. Beri jeda di situ. Jangan buru-buru.</li>
+  <li><b>Tunjukkan, jangan klaim.</b> Setiap pernyataan dalam naskah punya sesuatu di layar
+  yang membuktikannya pada saat yang sama.</li>
+  <li><b>Batasan disebut, bukan disembunyikan.</b> Ini menaikkan kredibilitas, dan mendahului
+  pertanyaan juri yang pasti datang.</li>
+  <li><b>Jangan pernah mempercepat sesuatu tanpa memberi label.</b> Rekaman yang dipercepat
+  harus diberi keterangan durasi aslinya. Kredibilitas seluruh video bergantung pada juri
+  percaya bahwa yang mereka lihat benar-benar berjalan.</li>
+</ol>
+
+<div class="foot">
+  <b style="color:var(--navy)">Sentinel-AI</b> · Dokumen produksi video demo ·
+  BISA AI National AI Agent Challenge 2026 ·
+  Muhammad Farrel Akbar, Faundra Pratma Sukma, Muhammad Setiawan
+</div>
+
+</body>
+</html>
